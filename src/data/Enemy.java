@@ -41,7 +41,12 @@ public class Enemy {
       first = false;
     else {
       if (CheckpointReached()) {
-        currentCheckpoint++;
+        if (currentCheckpoint + 1 == checkpoints.size())
+          // TODO remove enemy from map
+          // TODO subtract one life from player
+          System.out.println("Enemy Reached End of Maze");
+        else
+          currentCheckpoint++;
       } else {
         x += Delta() * checkpoints.get(currentCheckpoint).getxDirection() * speed;
         y += Delta() * checkpoints.get(currentCheckpoint).getyDirection() * speed;
@@ -81,7 +86,7 @@ public class Enemy {
     }
   }
 
-  // rename to: FindNextCheckpoint
+  // TODO rename to FindNextCheckpoint
   private Checkpoint FindNextC(Tile s, int[] dir) {
     Tile next = null;
     Checkpoint c = null;
@@ -103,7 +108,7 @@ public class Enemy {
     return c;
   }
 
-  // rename to: FindNextDirection
+  // TODO rename to FindNextDirection
   private int[] FindNextD(Tile s) {
     int[] dir = new int[2];
     Tile up = grid.GetTile(s.getXPlace(), s.getYPlace() - 1);
@@ -111,20 +116,16 @@ public class Enemy {
     Tile down = grid.GetTile(s.getXPlace(), s.getYPlace() + 1);
     Tile left = grid.GetTile(s.getXPlace() - 1, s.getYPlace());
 
-    if (s.getType() == up.getType()) {
-      System.out.println("DIRECTION: up");
+    if (s.getType() == up.getType() && directions[1] != 1) {
       dir[0] = 0;
       dir[1] = -1;
-    } else if (s.getType() == right.getType()) {
-      System.out.println("DIRECTION: right");
+    } else if (s.getType() == right.getType() && directions[0] != -1) {
       dir[0] = 1;
       dir[1] = 0;
-    } else if (s.getType() == down.getType()) {
-      System.out.println("DIRECTION: down");
+    } else if (s.getType() == down.getType() && directions[1] != -1) {
       dir[0] = 0;
       dir[1] = 1;
-    } else if (s.getType() == left.getType()) {
-      System.out.println("DIRECTION: left");
+    } else if (s.getType() == left.getType() && directions[0] != 1) {
       dir[0] = -1;
       dir[1] = 0;
     } else {
@@ -134,18 +135,6 @@ public class Enemy {
     }
     return dir;
   }
-
-  // private boolean pathContinues() {
-  // boolean answer = true;
-  //
-  // Tile myTile = grid.GetTile((int) (x / 64), (int) (y / 64));
-  // Tile nextTile = grid.GetTile((int) (x / 64) + 1, (int) (y / 64));
-  //
-  // if (myTile.getType() != nextTile.getType())
-  // answer = false;
-  //
-  // return answer;
-  // }
 
   public void Draw() {
     DrawQuadTex(texture, x, y, width, height);
