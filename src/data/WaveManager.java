@@ -20,13 +20,16 @@ public class WaveManager {
   }
 
   public void Update() {
-    if (currentWave != null) {
+    if (!currentWave.isCompleted())
       currentWave.Update();
-    }
+    else
+      newWave();
   }
 
   private void newWave() {
     currentWave = new Wave(enemyType, timeBetweenEnemies, enemiesPerWave);
+    waveNumber++;
+    System.out.println("Beginning Wave " + waveNumber);
   }
 
 }
