@@ -44,7 +44,6 @@ public class TowerCannon {
   }
 
   private float calculateAngle() {
-    // TODO converts these to local variables
     float xCannonCenterOfMass = (x + cannonTexture.getImageWidth() / 2);
     float yCannonCenterOfMass = (y + cannonTexture.getImageHeight() / 2);
     float xTargetCenterOfMass = (target.getX() + target.getWidth() / 2);
@@ -52,16 +51,18 @@ public class TowerCannon {
     float xDistanceFromTarget = xTargetCenterOfMass - xCannonCenterOfMass;
     float yDistanceFromTarget = yTargetCenterOfMass - yCannonCenterOfMass;
     double angleTemp = Math.atan2(yDistanceFromTarget, xDistanceFromTarget);
-    // double angleTemp = Math.atan2(target.getY() - y, target.getX() - x);
     return (float) Math.toDegrees(angleTemp) - 90;
   }
 
   public void shoot() {
     // center of projectile needs to be centered on tower
+    float xTileCenter = cannonTexture.getImageWidth() / 2;
+    float yTileCenter = cannonTexture.getImageHeight() / 2;
     Texture bullet = QuickLoad("bullet");
-    float xOffset = bullet.getImageWidth() / 2;
-    float yOffset = bullet.getImageWidth() / 2;
-    projectiles.add(new Projectile(bullet, target, x + xOffset, y + yOffset, ammoVelocity, damage));
+    float xProjectileOffset = bullet.getImageWidth() / 2;
+    float yProjectileOffset = bullet.getImageWidth() / 2;
+    projectiles.add(new Projectile(bullet, target, x + xTileCenter - xProjectileOffset,
+        y + yTileCenter - yProjectileOffset, ammoVelocity, damage));
   }
 
   public void update() {

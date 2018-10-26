@@ -5,6 +5,7 @@ import static helpers.Artist.QuickLoad;
 import java.util.ArrayList;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import helpers.Clock;
 
 public class Player {
 
@@ -53,8 +54,10 @@ public class Player {
     // Handle keyboard inputs
     while (Keyboard.next()) {
       if (Keyboard.getEventKey() == Keyboard.KEY_RIGHT && Keyboard.getEventKeyState()) {
-        // System.out.println("right");
-        moveIndex();
+        Clock.ChangeMultiplier(0.2f);
+      }
+      if (Keyboard.getEventKey() == Keyboard.KEY_LEFT && Keyboard.getEventKeyState()) {
+        Clock.ChangeMultiplier(-0.2f);
       }
       if (Keyboard.getEventKey() == Keyboard.KEY_T && Keyboard.getEventKeyState()) {
 
