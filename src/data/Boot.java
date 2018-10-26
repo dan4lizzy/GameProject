@@ -3,6 +3,7 @@ package data;
 import static helpers.Artist.BeginSession;
 import org.lwjgl.opengl.Display;
 import helpers.Clock;
+import helpers.StateManager;
 
 public class Boot {
 
@@ -74,11 +75,12 @@ public class Boot {
         {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 
-    Game game = new Game(map);
+    // Game game = new Game(map);
     while (!Display.isCloseRequested()) {
       Clock.update();
 
-      game.Update();
+      // game.Update();
+      StateManager.update();
 
       Display.update();
       Display.sync(60);
