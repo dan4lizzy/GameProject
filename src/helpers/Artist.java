@@ -14,6 +14,7 @@ import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glLoadIdentity;
 import static org.lwjgl.opengl.GL11.glMatrixMode;
 import static org.lwjgl.opengl.GL11.glOrtho;
+import static org.lwjgl.opengl.GL11.glRotatef;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glTranslatef;
 import static org.lwjgl.opengl.GL11.glVertex2f;
@@ -60,6 +61,26 @@ public class Artist {
   public static void DrawQuadTex(Texture tex, float x, float y, float width, float height) {
     tex.bind();
     glTranslatef(x, y, 0);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 0);
+    glVertex2f(0, 0);
+    glTexCoord2f(1, 0);
+    glVertex2f(width, 0);
+    glTexCoord2f(1, 1);
+    glVertex2f(width, height);
+    glTexCoord2f(0, 1);
+    glVertex2f(0, height);
+    glEnd();
+    glLoadIdentity(); // TODO: 3test out without this to see effect
+  }
+
+  // Rotated quad text
+  public static void DrawQuadTexRot(Texture tex, float x, float y, float width, float height,
+      float angle) {
+    tex.bind();
+    glTranslatef(x + width / 2, y + height / 2, 0);
+    glRotatef(angle, 0, 0, 1);
+    glTranslatef(-width / 2, -height / 2, 0);
     glBegin(GL_QUADS);
     glTexCoord2f(0, 0);
     glVertex2f(0, 0);

@@ -1,6 +1,7 @@
 package data;
 
 import static helpers.Artist.DrawQuadTex;
+import static helpers.Artist.DrawQuadTexRot;
 import static helpers.Artist.QuickLoad;
 import static helpers.Clock.Delta;
 import java.util.ArrayList;
@@ -45,6 +46,6 @@ public class TowerCannon {
 
   public void Draw() {
     DrawQuadTex(baseTexture, x, y, width, height);
-    DrawQuadTex(cannonTexture, x, y, width, height);
+    DrawQuadTexRot(cannonTexture, x, y, width, height, 45);
   }
 }
