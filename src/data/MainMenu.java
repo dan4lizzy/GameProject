@@ -30,10 +30,12 @@ public class MainMenu {
 
   private void updateButtons() {
     if (Mouse.isButtonDown(0) && !leftMouseButtonDown) {
-      if (menuUI.isButtonClicked("Play")) {
-        System.out.println("Play button clicked");
+      if (menuUI.isButtonClicked("Play"))
         StateManager.setState(GameState.GAME);
-      }
+      else if (menuUI.isButtonClicked("Editor"))
+        StateManager.setState(GameState.EDITOR);
+      else if (menuUI.isButtonClicked("Quit"))
+        System.exit(0);
     }
     leftMouseButtonDown = Mouse.isButtonDown(0);
   }
