@@ -45,7 +45,7 @@ public class Enemy {
           Die();
           // TODO remove enemy from map
           // TODO subtract one life from player
-          System.out.println("Enemy Reached End of Maze");
+          // System.out.println("Enemy Reached End of Maze");
         } else
           currentCheckpoint++;
       } else {
