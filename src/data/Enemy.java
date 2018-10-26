@@ -95,8 +95,11 @@ public class Enemy {
     boolean found = false;
     int counter = 1;
     while (!found) {
-      if (s.getType() != grid
-          .GetTile(s.getXPlace() + dir[0] * counter, s.getYPlace() + dir[1] * counter).getType()) {
+      if (s.getXPlace() + dir[0] * counter == grid.getTilesWide()
+          || s.getYPlace() + dir[0] * counter == grid.getTilesHigh()
+          || s.getType() != grid
+              .GetTile(s.getXPlace() + dir[0] * counter, s.getYPlace() + dir[1] * counter)
+              .getType()) {
         found = true;
         // Move counter back 1 to find tile before new tiletype
         counter--;
@@ -129,9 +132,9 @@ public class Enemy {
       dir[0] = -1;
       dir[1] = 0;
     } else {
+      // NO DIRECTIONS FOUND: end of line
       dir[0] = 2;
       dir[1] = 2;
-      System.out.println("NO DIRECTIONS FOUND");
     }
     return dir;
   }
