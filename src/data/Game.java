@@ -16,7 +16,7 @@ public class Game {
     player = new Player(grid, waveManager);
   }
 
-  public void Update() {
+  public void update() {
     // test += Delta();
     // System.out.println(test);
     grid.Draw();
