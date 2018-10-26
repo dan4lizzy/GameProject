@@ -18,8 +18,8 @@ public class Boot {
         {0, 2, 2, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
         {0, 0, 2, 2, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0},
         {0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1},
+        {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -32,13 +32,14 @@ public class Boot {
     Enemy e = new Enemy(QuickLoad("UFO64"), grid.GetTile(10, 8), grid, 64, 64, 6);
     Wave wave = new Wave(20, e);
     Player player = new Player(grid);
-
+    TowerCannon tower = new TowerCannon(QuickLoad("cannonBase"), grid.GetTile(14, 7), 10);
     while (!Display.isCloseRequested()) {
       Clock.update();
 
       grid.Draw();
       wave.Update();
       player.Update();
+      tower.Draw();
 
       Display.update();
       Display.sync(60);
