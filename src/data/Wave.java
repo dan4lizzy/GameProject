@@ -34,9 +34,11 @@ public class Wave {
     for (Enemy e : enemyList) {
       if (e.isAlive()) {
         allEnemiesDead = false;
-        e.Update();
-        e.Draw();
+        // e.Update();
+        // e.Draw();
       }
+      e.Update();
+      e.Draw();
     }
 
     if (allEnemiesDead)
