@@ -15,6 +15,10 @@ public class Clock {
     long currentTime = getTime();
     int delta = (int) (currentTime - lastFrame);
     lastFrame = getTime();
+    // System.out.println(delta * 0.01f);
+    // prevents issues when moving screen
+    if (delta * 0.01f > 0.5f)
+      return 0.5f;
     return delta * 0.01f;
   }
 

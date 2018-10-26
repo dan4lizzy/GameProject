@@ -11,7 +11,7 @@ public class Enemy {
   private Texture texture;
   private Tile startTile;
   private TileGrid grid;
-  private boolean first = true;
+  private boolean first = true, alive = true;
 
   private ArrayList<Checkpoint> checkpoints;
   private int[] directions;
@@ -41,11 +41,12 @@ public class Enemy {
       first = false;
     else {
       if (CheckpointReached()) {
-        if (currentCheckpoint + 1 == checkpoints.size())
+        if (currentCheckpoint + 1 == checkpoints.size()) {
+          Die();
           // TODO remove enemy from map
           // TODO subtract one life from player
           System.out.println("Enemy Reached End of Maze");
-        else
+        } else
           currentCheckpoint++;
       } else {
         x += Delta() * checkpoints.get(currentCheckpoint).getxDirection() * speed;
@@ -139,6 +140,10 @@ public class Enemy {
     return dir;
   }
 
+  private void Die() {
+    alive = false;
+  }
+
   public void Draw() {
     DrawQuadTex(texture, x, y, width, height);
   }
@@ -223,4 +228,7 @@ public class Enemy {
     this.grid = grid;
   }
 
+  public boolean isAlive() {
+    return alive;
+  }
 }
