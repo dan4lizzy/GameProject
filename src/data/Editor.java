@@ -1,6 +1,7 @@
 package data;
 
 import static helpers.Artist.HEIGHT;
+import static helpers.Leveler.loadMap;
 import static helpers.Leveler.saveMap;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -11,12 +12,14 @@ public class Editor {
   private TileType[] types;
 
   public Editor() {
-    this.grid = new TileGrid();
+    this.grid = loadMap("mapTest.map");
+    // this.grid = new TileGrid();
+    this.index = 0;
+
     this.types = new TileType[3];
     this.types[0] = TileType.Grass;
     this.types[1] = TileType.Dirt;
     this.types[2] = TileType.Water;
-    this.index = 0;
   }
 
   public void update() {
@@ -33,7 +36,7 @@ public class Editor {
         moveIndex();
       }
       if (Keyboard.getEventKey() == Keyboard.KEY_S && Keyboard.getEventKeyState()) {
-        saveMap("mapTest", grid);
+        saveMap("mapTest.map", grid);
       }
     }
   }
