@@ -62,7 +62,8 @@ public class TowerCannon {
     float xProjectileOffset = bullet.getImageWidth() / 2;
     float yProjectileOffset = bullet.getImageWidth() / 2;
     projectiles.add(new Projectile(bullet, target, x + xTileCenter - xProjectileOffset,
-        y + yTileCenter - yProjectileOffset, ammoVelocity, damage));
+        y + yTileCenter - yProjectileOffset, bullet.getImageWidth(), bullet.getImageHeight(),
+        ammoVelocity, damage));
   }
 
   public void update() {
