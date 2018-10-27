@@ -30,13 +30,14 @@ public class Player {
     // Update towers
     for (TowerCannon t : towerList) {
       t.update();
+      t.updateEnemyList(waveManager.getCurrentWave().getEnemyList());
     }
 
     // Handle mouse inputs
     if (Mouse.isButtonDown(0) && !leftMouseButtonDown) {
       System.out.println("Mouse button 0 down");
       towerList.add(new TowerCannon(QuickLoad("cannonBase"),
-          grid.GetTile(Mouse.getX() / 64, (HEIGHT - Mouse.getY() - 1) / 64), 10,
+          grid.GetTile(Mouse.getX() / 64, (HEIGHT - Mouse.getY() - 1) / 64), 10, 1000,
           waveManager.getCurrentWave().getEnemyList()));
       // this is for editor mode
       // setTile();
@@ -54,7 +55,7 @@ public class Player {
       }
       if (Keyboard.getEventKey() == Keyboard.KEY_T && Keyboard.getEventKeyState()) {
 
-        towerList.add(new TowerCannon(QuickLoad("cannonBase"), grid.GetTile(18, 9), 10,
+        towerList.add(new TowerCannon(QuickLoad("cannonBase"), grid.GetTile(18, 9), 10, 1000,
             waveManager.getCurrentWave().getEnemyList()));
       }
     }

@@ -9,15 +9,17 @@ import org.newdawn.slick.opengl.Texture;
 
 public class TowerCannon {
   private float x, y, timeSinceLastShot, firingSpeed, angle, ammoVelocity;
-  private int width, height, damage;
+  private int width, height, damage, range;
   private Texture baseTexture, cannonTexture;
   // does startTile really need to be a global? we are only using it to get X & Y in constructor
   private Tile startTile;
   private ArrayList<Projectile> projectiles;
   private ArrayList<Enemy> enemies;
   private Enemy target;
+  private boolean targeted;
 
-  public TowerCannon(Texture texture, Tile startTile, int damage, ArrayList<Enemy> enemies) {
+  public TowerCannon(Texture texture, Tile startTile, int damage, int range,
+      ArrayList<Enemy> enemies) {
     this.baseTexture = texture;
     this.cannonTexture = QuickLoad("cannonGun");
     this.startTile = startTile;
@@ -26,12 +28,14 @@ public class TowerCannon {
     this.width = (int) startTile.getWidth();
     this.height = (int) startTile.getHeight();
     this.damage = damage;
+    this.range = range;
     this.firingSpeed = 3;
     this.timeSinceLastShot = 0;
     this.projectiles = new ArrayList<Projectile>();
     this.enemies = enemies;
-    this.target = acquireTarget();
-    this.angle = calculateAngle();
+    this.targeted = false;
+    // this.target = acquireTarget();
+    // this.angle = calculateAngle();
 
     // My code modifications
     this.ammoVelocity = 900;
@@ -39,8 +43,48 @@ public class TowerCannon {
   }
 
   private Enemy acquireTarget() {
-    // TODO determine which enemy we should be targeting
-    return enemies.get(0);
+    Enemy closest = null;
+    // so big, that any enemy should be close
+    float closestDistance = 10000;
+    for (Enemy e : enemies) {
+      if (isInRange(e) && findDistance(e) < closestDistance) {
+        closestDistance = findDistance(e);
+        closest = e;
+      }
+    }
+    // return enemies.get(0);
+    if (closest != null)
+      targeted = true;
+    return closest;
+  }
+
+  private boolean isInRange(Enemy e) {
+    float distance = findDistance(e);
+    if (distance < range)
+      return true;
+    return false;
+  }
+
+  private float findDistance(Enemy e) {
+    // Similar issue with this from Indie
+    // if the range is 900 pixels, and the xDistance and yDistance
+    // are both 900, the actual distance is ~1273 pixels, and
+    // therefore out of range; let alone adding them together
+    // this also doesn't take into account the center of mass of the target
+    // float xDistance = Math.abs(e.getX() - x);
+    // float yDistance = Math.abs(e.getY() - y);
+    // return xDistance + yDistance;
+
+    // Again using the Pythagorean theorem
+    float xCannonCenterOfMass = (x + cannonTexture.getImageWidth() / 2);
+    float yCannonCenterOfMass = (y + cannonTexture.getImageHeight() / 2);
+    float xEnemyCenterOfMass = (e.getX() + e.getWidth() / 2);
+    float yEnemyCenterOfMass = (e.getY() + e.getHeight() / 2);
+    float xDistanceFromTarget = xEnemyCenterOfMass - xCannonCenterOfMass;
+    float yDistanceFromTarget = yEnemyCenterOfMass - yCannonCenterOfMass;
+    float distance =
+        (float) Math.sqrt(Math.pow(xDistanceFromTarget, 2) + Math.pow(yDistanceFromTarget, 2));
+    return distance;
   }
 
   private float calculateAngle() {
@@ -67,10 +111,17 @@ public class TowerCannon {
         ammoVelocity, damage));
   }
 
-  public void update() {
-    // moved here for troubleshooting projectile velocity vector
-    angle = calculateAngle();
+  public void updateEnemyList(ArrayList<Enemy> newList) {
+    enemies = newList;
+  }
 
+  public void update() {
+    if (!targeted) {
+      target = acquireTarget();
+    }
+
+    if (target == null || target.isAlive() == false)
+      targeted = false;
     timeSinceLastShot += Delta();
     if (timeSinceLastShot > firingSpeed) {
       shoot();
@@ -80,6 +131,7 @@ public class TowerCannon {
     for (Projectile p : projectiles)
       p.update();
 
+    angle = calculateAngle();
     draw();
   }
 
