@@ -1,9 +1,22 @@
 package data;
 
+import static helpers.Artist.DrawQuadTex;
+import org.newdawn.slick.opengl.Texture;
+
 public abstract class Tower implements Entity {
 
   private float x, y;
-  private int width, height;
+  private int width, height, damage;
+  private Enemy target;
+  private Texture texture;
+
+  public Tower(Texture texture, float x, float y, int width, int height) {
+    this.texture = texture;
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+  }
 
   @Override
   public float getX() {
@@ -52,7 +65,7 @@ public abstract class Tower implements Entity {
 
   @Override
   public void draw() {
-    // TODO Auto-generated method stub
+    DrawQuadTex(texture, x, y, width, height);
   }
 
 }

@@ -5,15 +5,15 @@ import static helpers.Artist.DrawQuadTex;
 import static helpers.Clock.Delta;
 import org.newdawn.slick.opengl.Texture;
 
-public class Projectile {
+public class Projectile implements Entity {
 
   private Texture texture;
-  private float x, y, width, height, speed, xVelocity, yVelocity;
-  private int damage;
+  private float x, y, speed, xVelocity, yVelocity;
+  private int width, height, damage;
   private Enemy target;
   private boolean alive;
 
-  public Projectile(Texture texture, Enemy target, float x, float y, float width, float height,
+  public Projectile(Texture texture, Enemy target, float x, float y, int width, int height,
       float speed, int damage) {
     this.texture = texture;
     this.x = x;
@@ -59,6 +59,7 @@ public class Projectile {
     yVelocity = (float) Math.cos(Math.toRadians(angle));
   }
 
+  @Override
   public void update() {
     if (alive) {
       x += xVelocity * speed * Delta();
@@ -77,7 +78,49 @@ public class Projectile {
     }
   }
 
+  @Override
   public void draw() {
     DrawQuadTex(texture, x, y, width, height);
+  }
+
+  @Override
+  public float getX() {
+    return x;
+  }
+
+  @Override
+  public float getY() {
+    return y;
+  }
+
+  @Override
+  public int getWidth() {
+    return width;
+  }
+
+  @Override
+  public int getHeight() {
+    return height;
+  }
+
+  @Override
+  public void setX(float x) {
+    this.x = x;
+  }
+
+  @Override
+  public void setY(float y) {
+    this.y = y;
+
+  }
+
+  @Override
+  public void setWidth(int width) {
+    this.width = width;
+  }
+
+  @Override
+  public void setHeight(int height) {
+    this.height = height;
   }
 }
