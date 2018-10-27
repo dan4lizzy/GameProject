@@ -16,7 +16,8 @@ public class Enemy {
   private ArrayList<Checkpoint> checkpoints;
   private int[] directions;
 
-  Enemy(Texture texture, Tile startTile, TileGrid grid, int width, int height, float speed) {
+  public Enemy(Texture texture, Tile startTile, TileGrid grid, int width, int height, float speed,
+      int health) {
     this.texture = texture;
     this.startTile = startTile;
     this.grid = grid;
@@ -25,6 +26,8 @@ public class Enemy {
     this.width = width;
     this.height = height;
     this.speed = speed;
+    this.health = health;
+
     this.checkpoints = new ArrayList<Checkpoint>();
     this.directions = new int[2];
     // X Direction
@@ -36,15 +39,35 @@ public class Enemy {
     PopulateCheckpointList();
   }
 
-  public void Update() {
+  public Enemy(Enemy enemy) {
+    this.texture = enemy.getTexture();
+    this.startTile = enemy.getStartTile();
+    this.grid = enemy.getTileGrid();
+    this.x = enemy.getStartTile().getX();
+    this.y = enemy.getStartTile().getY();
+    this.width = enemy.getWidth();
+    this.height = enemy.getHeight();
+    this.speed = enemy.getWidth();
+    this.health = enemy.getHealth();
+
+    this.checkpoints = new ArrayList<Checkpoint>();
+    this.directions = new int[2];
+    // X Direction
+    this.directions[0] = 0;
+    // Y Direction
+    this.directions[1] = 0;
+    this.directions = FindNextD(startTile);
+    this.currentCheckpoint = 0;
+    PopulateCheckpointList();
+  }
+
+  public void update() {
     if (first)
       first = false;
     else {
       if (CheckpointReached()) {
         if (currentCheckpoint + 1 == checkpoints.size()) {
-          Die();
-          // TODO remove enemy from map
-          // TODO subtract one life from player
+          die();
           // System.out.println("Enemy Reached End of Maze");
         } else
           currentCheckpoint++;
@@ -140,11 +163,18 @@ public class Enemy {
     return dir;
   }
 
-  private void Die() {
+  public void damage(int amount) {
+    health -= amount;
+    if (health <= 0)
+      die();
+  }
+
+  private void die() {
+    // TODO remove enemy from map
     alive = false;
   }
 
-  public void Draw() {
+  public void draw() {
     DrawQuadTex(texture, x, y, width, height);
   }
 
@@ -220,11 +250,11 @@ public class Enemy {
     this.first = first;
   }
 
-  public TileGrid getGrid() {
+  public TileGrid getTileGrid() {
     return grid;
   }
 
-  public void setGrid(TileGrid grid) {
+  public void setTileGrid(TileGrid grid) {
     this.grid = grid;
   }
 

@@ -34,11 +34,9 @@ public class Wave {
     for (Enemy e : enemyList) {
       if (e.isAlive()) {
         allEnemiesDead = false;
-        // e.Update();
-        // e.Draw();
+        e.update();
+        e.draw();
       }
-      e.Update();
-      e.Draw();
     }
 
     if (allEnemiesDead)
@@ -46,8 +44,10 @@ public class Wave {
   }
 
   private void Spawn() {
-    enemyList.add(new Enemy(enemyType.getTexture(), enemyType.getStartTile(), enemyType.getGrid(),
-        enemyType.getWidth(), enemyType.getHeight(), enemyType.getSpeed()));
+    // enemyList.add(new Enemy(enemyType.getTexture(), enemyType.getStartTile(),
+    // enemyType.getTileGrid(), enemyType.getWidth(), enemyType.getHeight(), enemyType.getSpeed(),
+    // enemyType.getHealth()));
+    enemyList.add(new Enemy(enemyType));
   }
 
   public boolean isCompleted() {

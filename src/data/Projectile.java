@@ -53,7 +53,6 @@ public class Projectile {
     float xDistanceFromTarget = xTargetCenterOfMass - xProjectileCenterOfMass;
     float yDistanceFromTarget = yTargetCenterOfMass - yProjectileCenterOfMass;
     double offsetAngle = 90;
-    // TODO convert angle from global to local variable
     double angle =
         Math.toDegrees(Math.atan2(yDistanceFromTarget, xDistanceFromTarget)) - offsetAngle;
     xVelocity = -1 * (float) Math.sin(Math.toRadians(angle)); // x axis for angles are swapped
@@ -66,8 +65,12 @@ public class Projectile {
       y += yVelocity * speed * Delta();
       if (CheckCollision(x, y, width, height, target.getX(), target.getY(), target.getWidth(),
           target.getHeight())) {
-        // this is still getting called when the target is missed
-        System.out.println("Target collision!");
+        // it may look like it missed, but using the filled bullet
+        // and UFO tiles, they do intersect, though the circles themselves
+        // don't. not sure how to handle that - it basically gives the bullet
+        // a bit of an area of effect rather that a exact collision
+        target.damage(damage);
+        System.out.println("Target collision! Health is down to " + target.getHealth());
         alive = false;
       }
       draw();

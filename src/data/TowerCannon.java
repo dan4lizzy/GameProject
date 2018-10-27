@@ -35,7 +35,7 @@ public class TowerCannon {
 
     // My code modifications
     this.ammoVelocity = 900;
-    this.damage = 2;
+    this.damage = 10;
   }
 
   private Enemy acquireTarget() {
@@ -58,6 +58,7 @@ public class TowerCannon {
     // center of projectile needs to be centered on tower
     float xTileCenter = cannonTexture.getImageWidth() / 2;
     float yTileCenter = cannonTexture.getImageHeight() / 2;
+    // Texture bullet = QuickLoad("bulletFilled");
     Texture bullet = QuickLoad("bullet");
     float xProjectileOffset = bullet.getImageWidth() / 2;
     float yProjectileOffset = bullet.getImageWidth() / 2;
