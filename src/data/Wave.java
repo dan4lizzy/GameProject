@@ -18,15 +18,15 @@ public class Wave {
     this.enemyList = new ArrayList<Enemy>();
     this.waveCompleted = false;
 
-    Spawn();
+    spawn();
   }
 
-  public void Update() {
+  public void update() {
     boolean allEnemiesDead = true;
     if (enemyList.size() < enemiesPerWave) {
       timeSinceLastSpawn += Delta();
       if (timeSinceLastSpawn > spawnTime) {
-        Spawn();
+        spawn();
         timeSinceLastSpawn = 0;
       }
     }
@@ -43,7 +43,7 @@ public class Wave {
       waveCompleted = true;
   }
 
-  private void Spawn() {
+  private void spawn() {
     // enemyList.add(new Enemy(enemyType.getTexture(), enemyType.getStartTile(),
     // enemyType.getTileGrid(), enemyType.getWidth(), enemyType.getHeight(), enemyType.getSpeed(),
     // enemyType.getHealth()));

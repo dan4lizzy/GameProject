@@ -2,6 +2,7 @@ package data;
 
 import static helpers.Artist.DrawQuadTex;
 import static helpers.Artist.QuickLoad;
+import static helpers.Artist.TILE_SIZE;
 import org.newdawn.slick.opengl.Texture;
 
 public class Tile {
@@ -19,7 +20,7 @@ public class Tile {
     this.texture = QuickLoad(type.textureName);
   }
 
-  public void Draw() {
+  public void draw() {
     DrawQuadTex(texture, x, y, width, height);
   }
 
@@ -28,7 +29,7 @@ public class Tile {
   }
 
   public int getXPlace() {
-    return (int) (x / 64);
+    return (int) (x / TILE_SIZE);
   }
 
   public void setX(float x) {
@@ -40,7 +41,7 @@ public class Tile {
   }
 
   public int getYPlace() {
-    return (int) (y / 64);
+    return (int) (y / TILE_SIZE);
   }
 
   public void setY(float y) {
@@ -78,6 +79,4 @@ public class Tile {
   public void setType(TileType type) {
     this.type = type;
   }
-
-
 }

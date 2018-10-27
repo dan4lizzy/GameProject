@@ -42,6 +42,8 @@ public class MainMenu {
 
   public void update() {
     // opengl has issues with sizes not power of 2
+    // which is why the background isn't defined as
+    // our game size of 1280 x 960
     DrawQuadTex(background, 0, 0, 2048, 1024);
     menuUI.draw();
     updateButtons();

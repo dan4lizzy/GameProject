@@ -12,13 +12,10 @@ public class Boot {
 
     while (!Display.isCloseRequested()) {
       Clock.update();
-
       StateManager.update();
-
       Display.update();
       Display.sync(60);
     }
-
     Display.destroy();
   }
 

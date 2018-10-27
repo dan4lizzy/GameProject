@@ -34,9 +34,9 @@ public class Enemy implements Entity {
     this.directions[0] = 0;
     // Y Direction
     this.directions[1] = 0;
-    this.directions = FindNextD(startTile);
+    this.directions = findNextDirection(startTile);
     this.currentCheckpoint = 0;
-    PopulateCheckpointList();
+    populateCheckpointList();
   }
 
   public Enemy(Enemy enemy) {
@@ -56,9 +56,9 @@ public class Enemy implements Entity {
     this.directions[0] = 0;
     // Y Direction
     this.directions[1] = 0;
-    this.directions = FindNextD(startTile);
+    this.directions = findNextDirection(startTile);
     this.currentCheckpoint = 0;
-    PopulateCheckpointList();
+    populateCheckpointList();
   }
 
   @Override
@@ -66,10 +66,9 @@ public class Enemy implements Entity {
     if (first)
       first = false;
     else {
-      if (CheckpointReached()) {
+      if (checkpointReached()) {
         if (currentCheckpoint + 1 == checkpoints.size()) {
           die();
-          // System.out.println("Enemy Reached End of Maze");
         } else
           currentCheckpoint++;
       } else {
@@ -79,40 +78,36 @@ public class Enemy implements Entity {
     }
   }
 
-  private boolean CheckpointReached() {
+  private boolean checkpointReached() {
     boolean reached = false;
     Tile t = checkpoints.get(currentCheckpoint).getTile();
     // Check if position reached tile within variance of 3 (arbitrary)
     if (x > t.getX() - 3 && x < t.getX() + 3 && y > t.getY() - 3 && y < t.getY() + 3) {
-
       reached = true;
       x = t.getX();
       y = t.getY();
     }
-
     return reached;
   }
 
-  private void PopulateCheckpointList() {
-    checkpoints.add(FindNextC(startTile, directions = FindNextD(startTile)));
-
+  private void populateCheckpointList() {
+    checkpoints.add(findNextCheckpoint(startTile, directions = findNextDirection(startTile)));
     int counter = 0;
     boolean cont = true;
     while (cont) {
-      int[] currentD = FindNextD(checkpoints.get(counter).getTile());
+      int[] currentD = findNextDirection(checkpoints.get(counter).getTile());
       // Check if the next direction/checkpoint exists; end after 20 checkpoints (arbitrary)
       if (currentD[0] == 2 || counter == 20) {
         cont = false;
       } else {
-        checkpoints.add(FindNextC(checkpoints.get(counter).getTile(),
-            directions = FindNextD(checkpoints.get(counter).getTile())));
+        checkpoints.add(findNextCheckpoint(checkpoints.get(counter).getTile(),
+            directions = findNextDirection(checkpoints.get(counter).getTile())));
       }
       counter++;
     }
   }
 
-  // TODO rename to FindNextCheckpoint
-  private Checkpoint FindNextC(Tile s, int[] dir) {
+  private Checkpoint findNextCheckpoint(Tile s, int[] dir) {
     Tile next = null;
     Checkpoint c = null;
 
@@ -123,12 +118,12 @@ public class Enemy implements Entity {
       if (s.getXPlace() + dir[0] * counter == grid.getTilesWide()
           || s.getYPlace() + dir[0] * counter == grid.getTilesHigh()
           || s.getType() != grid
-              .GetTile(s.getXPlace() + dir[0] * counter, s.getYPlace() + dir[1] * counter)
+              .getTile(s.getXPlace() + dir[0] * counter, s.getYPlace() + dir[1] * counter)
               .getType()) {
         found = true;
         // Move counter back 1 to find tile before new tiletype
         counter--;
-        next = grid.GetTile(s.getXPlace() + dir[0] * counter, s.getYPlace() + dir[1] * counter);
+        next = grid.getTile(s.getXPlace() + dir[0] * counter, s.getYPlace() + dir[1] * counter);
       }
       counter++;
     }
@@ -136,13 +131,12 @@ public class Enemy implements Entity {
     return c;
   }
 
-  // TODO rename to FindNextDirection
-  private int[] FindNextD(Tile s) {
+  private int[] findNextDirection(Tile s) {
     int[] dir = new int[2];
-    Tile up = grid.GetTile(s.getXPlace(), s.getYPlace() - 1);
-    Tile right = grid.GetTile(s.getXPlace() + 1, s.getYPlace());
-    Tile down = grid.GetTile(s.getXPlace(), s.getYPlace() + 1);
-    Tile left = grid.GetTile(s.getXPlace() - 1, s.getYPlace());
+    Tile up = grid.getTile(s.getXPlace(), s.getYPlace() - 1);
+    Tile right = grid.getTile(s.getXPlace() + 1, s.getYPlace());
+    Tile down = grid.getTile(s.getXPlace(), s.getYPlace() + 1);
+    Tile left = grid.getTile(s.getXPlace() - 1, s.getYPlace());
 
     if (s.getType() == up.getType() && directions[1] != 1) {
       dir[0] = 0;

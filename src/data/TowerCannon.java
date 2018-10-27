@@ -34,8 +34,6 @@ public class TowerCannon {
     this.projectiles = new ArrayList<Projectile>();
     this.enemies = enemies;
     this.targeted = false;
-    // this.target = acquireTarget();
-    // this.angle = calculateAngle();
 
     // My code modifications
     this.ammoVelocity = 900;
@@ -44,7 +42,7 @@ public class TowerCannon {
 
   private Enemy acquireTarget() {
     Enemy closest = null;
-    // so big, that any enemy should be close
+    // this number is so big that any enemy should be closer
     float closestDistance = 10000;
     for (Enemy e : enemies) {
       if (isInRange(e) && findDistance(e) < closestDistance) {
@@ -139,6 +137,4 @@ public class TowerCannon {
     DrawQuadTex(baseTexture, x, y, width, height);
     DrawQuadTexRot(cannonTexture, x, y, width, height, angle);
   }
-
-
 }
