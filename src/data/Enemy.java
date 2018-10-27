@@ -5,7 +5,7 @@ import static helpers.Clock.Delta;
 import java.util.ArrayList;
 import org.newdawn.slick.opengl.Texture;
 
-public class Enemy {
+public class Enemy implements Entity {
   private int width, height, health, currentCheckpoint;
   private float x, y, speed;
   private Texture texture;
@@ -61,6 +61,7 @@ public class Enemy {
     PopulateCheckpointList();
   }
 
+  @Override
   public void update() {
     if (first)
       first = false;
@@ -174,22 +175,27 @@ public class Enemy {
     alive = false;
   }
 
+  @Override
   public void draw() {
     DrawQuadTex(texture, x, y, width, height);
   }
 
+  @Override
   public int getWidth() {
     return width;
   }
 
+  @Override
   public void setWidth(int width) {
     this.width = width;
   }
 
+  @Override
   public int getHeight() {
     return height;
   }
 
+  @Override
   public void setHeight(int height) {
     this.height = height;
   }
@@ -202,18 +208,22 @@ public class Enemy {
     this.health = health;
   }
 
+  @Override
   public float getX() {
     return x;
   }
 
+  @Override
   public void setX(float x) {
     this.x = x;
   }
 
+  @Override
   public float getY() {
     return y;
   }
 
+  @Override
   public void setY(float y) {
     this.y = y;
   }
