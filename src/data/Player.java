@@ -11,7 +11,6 @@ public class Player {
 
   private TileGrid grid;
   private TileType[] types;
-  private int index;
   private WaveManager waveManager;
   private ArrayList<TowerCannon> towerList;
   private boolean leftMouseButtonDown;
@@ -22,7 +21,6 @@ public class Player {
     this.types[0] = TileType.Grass;
     this.types[1] = TileType.Dirt;
     this.types[2] = TileType.Water;
-    this.index = 0;
     this.waveManager = waveManager;
     this.towerList = new ArrayList<TowerCannon>();
     this.leftMouseButtonDown = false;
