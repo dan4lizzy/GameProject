@@ -1,28 +1,34 @@
 package data.enemies;
 
 import static helpers.Artist.DrawQuadTex;
+import static helpers.Artist.QuickLoad;
 import static helpers.Clock.Delta;
 import java.util.ArrayList;
 import org.newdawn.slick.opengl.Texture;
 import data.Checkpoint;
 import data.Entity;
+import data.HealthBar;
 import data.Tile;
 import data.TileGrid;
 
 public class Enemy implements Entity {
-  private int width, height, health, currentCheckpoint;
-  private float x, y, speed;
-  private Texture texture;
+  private int width, height, currentCheckpoint;
+  private float x, y, speed, startHealth, health;
+  private Texture texture, healthBackground, healthForeground, healthBorder;
   private Tile startTile;
   private TileGrid grid;
   private boolean first = true, alive = true;
+  private HealthBar healthBar;
 
   private ArrayList<Checkpoint> checkpoints;
   private int[] directions;
 
   public Enemy(Texture texture, Tile startTile, TileGrid grid, int width, int height, float speed,
-      int health) {
+      float health) {
     this.texture = texture;
+    this.healthBackground = QuickLoad("healthBackground");
+    this.healthForeground = QuickLoad("healthForeground");
+    this.healthBorder = QuickLoad("healthBorder");
     this.startTile = startTile;
     this.grid = grid;
     this.x = startTile.getX();
@@ -30,7 +36,9 @@ public class Enemy implements Entity {
     this.width = width;
     this.height = height;
     this.speed = speed;
+    this.startHealth = health;
     this.health = health;
+    this.healthBar = new HealthBar(x, y, width, height, startHealth, health);
 
     this.checkpoints = new ArrayList<Checkpoint>();
     this.directions = new int[2];
@@ -45,6 +53,9 @@ public class Enemy implements Entity {
 
   public Enemy(Enemy enemy) {
     this.texture = enemy.getTexture();
+    this.healthBackground = QuickLoad("healthBackground");
+    this.healthForeground = QuickLoad("healthForeground");
+    this.healthBorder = QuickLoad("healthBorder");
     this.startTile = enemy.getStartTile();
     this.grid = enemy.getTileGrid();
     this.x = enemy.getStartTile().getX();
@@ -53,6 +64,8 @@ public class Enemy implements Entity {
     this.height = enemy.getHeight();
     this.speed = enemy.getWidth();
     this.health = enemy.getHealth();
+    this.startHealth = enemy.getHealth();
+    this.healthBar = new HealthBar(x, y, width, height, startHealth, health);
 
     this.checkpoints = new ArrayList<Checkpoint>();
     this.directions = new int[2];
@@ -79,6 +92,8 @@ public class Enemy implements Entity {
         x += Delta() * checkpoints.get(currentCheckpoint).getxDirection() * speed;
         y += Delta() * checkpoints.get(currentCheckpoint).getyDirection() * speed;
       }
+      healthBar.setPosition(x, y);
+      healthBar.setHealth(health);
     }
   }
 
@@ -170,13 +185,19 @@ public class Enemy implements Entity {
   }
 
   private void die() {
-    // TODO remove enemy from map
     alive = false;
   }
 
   @Override
   public void draw() {
     DrawQuadTex(texture, x, y, width, height);
+    if (health != startHealth) {
+      // float healthPercentage = health / startHealth;
+      // DrawQuadTex(healthBackground, x, y - 16, width, 8);
+      // DrawQuadTex(healthForeground, x, y - 16, width * healthPercentage, 8);
+      // DrawQuadTex(healthBorder, x, y - 16, width, 8);
+      healthBar.update();
+    }
   }
 
   @Override
@@ -199,11 +220,11 @@ public class Enemy implements Entity {
     this.height = height;
   }
 
-  public int getHealth() {
+  public float getHealth() {
     return health;
   }
 
-  public void setHealth(int health) {
+  public void setHealth(float health) {
     this.health = health;
   }
 
