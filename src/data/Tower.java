@@ -82,7 +82,7 @@ public abstract class Tower implements Entity {
     return (float) Math.toDegrees(angleTemp) - 90;
   }
 
-  public void shoot() {
+  protected void shoot() {
     float xTileCenter = textures[0].getImageWidth() / 2;
     float yTileCenter = textures[0].getImageHeight() / 2;
     Texture bullet = QuickLoad("bullet");
@@ -165,6 +165,10 @@ public abstract class Tower implements Entity {
   @Override
   public void setHeight(int height) {
     this.height = height;
+  }
+
+  public Enemy getTarget() {
+    return target;
   }
 
 }

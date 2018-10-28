@@ -43,7 +43,7 @@ public class Player {
     }
     if (Mouse.isButtonDown(1) && !rightMouseButtonDown) {
       System.out.println("Mouse button 0 down");
-      towerList.add(new TowerCannonBlue(TowerType.CannonBlue,
+      towerList.add(new TowerIce(TowerType.CannonIce,
           grid.getTile(Mouse.getX() / TILE_SIZE, (HEIGHT - Mouse.getY() - 1) / TILE_SIZE),
           waveManager.getCurrentWave().getEnemyList()));
     }
