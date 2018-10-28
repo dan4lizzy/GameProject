@@ -34,10 +34,10 @@ public class TowerCannon {
     this.projectiles = new ArrayList<Projectile>();
     this.enemies = enemies;
     this.targeted = false;
+    this.damage = 10;
 
     // My code modifications
     this.ammoVelocity = 900;
-    this.damage = 10;
   }
 
   private Enemy acquireTarget() {
