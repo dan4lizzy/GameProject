@@ -1,4 +1,4 @@
-package data;
+package data.towers;
 
 import static helpers.Artist.DrawQuadTex;
 import static helpers.Artist.DrawQuadTexRot;
@@ -6,6 +6,11 @@ import static helpers.Artist.QuickLoad;
 import static helpers.Clock.Delta;
 import java.util.ArrayList;
 import org.newdawn.slick.opengl.Texture;
+import data.Entity;
+import data.Tile;
+import data.enemies.Enemy;
+import data.projectiles.Projectile;
+import data.projectiles.ProjectileIceball;
 
 public abstract class Tower implements Entity {
 
@@ -88,7 +93,7 @@ public abstract class Tower implements Entity {
     Texture bullet = QuickLoad("bullet");
     float xProjectileOffset = bullet.getImageWidth() / 2;
     float yProjectileOffset = bullet.getImageWidth() / 2;
-    projectiles.add(new Projectile(bullet, target, x + xTileCenter - xProjectileOffset,
+    projectiles.add(new ProjectileIceball(bullet, target, x + xTileCenter - xProjectileOffset,
         y + yTileCenter - yProjectileOffset, bullet.getImageWidth(), bullet.getImageHeight(),
         ammoVelocity, damage));
   }
@@ -106,7 +111,7 @@ public abstract class Tower implements Entity {
     if (target == null || target.isAlive() == false)
       targeted = false;
     timeSinceLastShot += Delta();
-    if (timeSinceLastShot > firingSpeed) {
+    if (timeSinceLastShot > firingSpeed && targeted) {
       shoot();
       timeSinceLastShot = 0;
     }

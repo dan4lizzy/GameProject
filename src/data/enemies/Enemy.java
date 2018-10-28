@@ -1,9 +1,13 @@
-package data;
+package data.enemies;
 
 import static helpers.Artist.DrawQuadTex;
 import static helpers.Clock.Delta;
 import java.util.ArrayList;
 import org.newdawn.slick.opengl.Texture;
+import data.Checkpoint;
+import data.Entity;
+import data.Tile;
+import data.TileGrid;
 
 public class Enemy implements Entity {
   private int width, height, health, currentCheckpoint;
@@ -160,6 +164,7 @@ public class Enemy implements Entity {
 
   public void damage(int amount) {
     health -= amount;
+    System.out.println("Enemy health: " + health);
     if (health <= 0)
       die();
   }

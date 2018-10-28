@@ -1,5 +1,7 @@
 package data;
 
+import data.enemies.Enemy;
+
 public class WaveManager {
 
   private float timeSinceLastWave, timeBetweenEnemies;

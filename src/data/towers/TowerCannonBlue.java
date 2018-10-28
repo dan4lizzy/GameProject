@@ -1,6 +1,8 @@
-package data;
+package data.towers;
 
 import java.util.ArrayList;
+import data.Tile;
+import data.enemies.Enemy;
 
 public class TowerCannonBlue extends Tower {
 

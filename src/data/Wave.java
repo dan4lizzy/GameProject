@@ -2,6 +2,7 @@ package data;
 
 import static helpers.Clock.Delta;
 import java.util.ArrayList;
+import data.enemies.Enemy;
 
 public class Wave {
   private float timeSinceLastSpawn, spawnTime;

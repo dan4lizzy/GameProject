@@ -2,6 +2,7 @@ package data;
 
 import static helpers.Artist.QuickLoad;
 import static helpers.Artist.TILE_SIZE;
+import data.enemies.Enemy;
 
 public class Game {
 

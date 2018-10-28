@@ -1,6 +1,8 @@
-package data;
+package data.towers;
 
 import java.util.ArrayList;
+import data.Tile;
+import data.enemies.Enemy;
 
 public class TowerIce extends Tower {
 
@@ -11,8 +13,5 @@ public class TowerIce extends Tower {
   @Override
   protected void shoot() {
     super.shoot();
-    // TODO should this be a reduction to value or by a percentage down?
-    // TODO should be moved to projectile class, and should only be called once it achieves a collision
-    super.getTarget().setSpeed(4);
   }
 }

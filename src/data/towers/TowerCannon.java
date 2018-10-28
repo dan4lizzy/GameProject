@@ -1,4 +1,4 @@
-package data;
+package data.towers;
 
 import static helpers.Artist.DrawQuadTex;
 import static helpers.Artist.DrawQuadTexRot;
@@ -6,6 +6,10 @@ import static helpers.Artist.QuickLoad;
 import static helpers.Clock.Delta;
 import java.util.ArrayList;
 import org.newdawn.slick.opengl.Texture;
+import data.Tile;
+import data.enemies.Enemy;
+import data.projectiles.Projectile;
+import data.projectiles.ProjectileIceball;
 
 public class TowerCannon {
   private float x, y, timeSinceLastShot, firingSpeed, angle, ammoVelocity;
@@ -25,8 +29,8 @@ public class TowerCannon {
     this.startTile = startTile;
     this.x = startTile.getX();
     this.y = startTile.getY();
-    this.width = (int) startTile.getWidth();
-    this.height = (int) startTile.getHeight();
+    this.width = startTile.getWidth();
+    this.height = startTile.getHeight();
     this.damage = damage;
     this.range = range;
     this.firingSpeed = 3;
@@ -104,7 +108,7 @@ public class TowerCannon {
     Texture bullet = QuickLoad("bullet");
     float xProjectileOffset = bullet.getImageWidth() / 2;
     float yProjectileOffset = bullet.getImageWidth() / 2;
-    projectiles.add(new Projectile(bullet, target, x + xTileCenter - xProjectileOffset,
+    projectiles.add(new ProjectileIceball(bullet, target, x + xTileCenter - xProjectileOffset,
         y + yTileCenter - yProjectileOffset, bullet.getImageWidth(), bullet.getImageHeight(),
         ammoVelocity, damage));
   }

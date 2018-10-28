@@ -1,11 +1,13 @@
-package data;
+package data.projectiles;
 
 import static helpers.Artist.CheckCollision;
 import static helpers.Artist.DrawQuadTex;
 import static helpers.Clock.Delta;
 import org.newdawn.slick.opengl.Texture;
+import data.Entity;
+import data.enemies.Enemy;
 
-public class Projectile implements Entity {
+public abstract class Projectile implements Entity {
 
   private Texture texture;
   private float x, y, speed, xVelocity, yVelocity;
@@ -59,21 +61,25 @@ public class Projectile implements Entity {
     yVelocity = (float) Math.cos(Math.toRadians(angle));
   }
 
+  // TODO rename to applyEffect
+  public void damage() {
+    // it may look like it missed, but using the filled bullet
+    // and UFO tiles, they do intersect, though the circles themselves
+    // don't. not sure how to handle that - it basically gives the bullet
+    // a bit of an area of effect rather that a exact collision
+    target.damage(damage);
+    alive = false;
+    // System.out.println("Target collision! Health is down to " + target.getHealth());
+  }
+
   @Override
   public void update() {
     if (alive) {
       x += xVelocity * speed * Delta();
       y += yVelocity * speed * Delta();
       if (CheckCollision(x, y, width, height, target.getX(), target.getY(), target.getWidth(),
-          target.getHeight())) {
-        // it may look like it missed, but using the filled bullet
-        // and UFO tiles, they do intersect, though the circles themselves
-        // don't. not sure how to handle that - it basically gives the bullet
-        // a bit of an area of effect rather that a exact collision
-        target.damage(damage);
-        System.out.println("Target collision! Health is down to " + target.getHealth());
-        alive = false;
-      }
+          target.getHeight()))
+        damage();
       draw();
     }
   }
@@ -122,5 +128,13 @@ public class Projectile implements Entity {
   @Override
   public void setHeight(int height) {
     this.height = height;
+  }
+
+  public Enemy getTarget() {
+    return target;
+  }
+
+  public void setAlive(boolean alive) {
+    this.alive = alive;
   }
 }

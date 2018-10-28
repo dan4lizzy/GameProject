@@ -5,6 +5,10 @@ import static helpers.Artist.TILE_SIZE;
 import java.util.ArrayList;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import data.towers.Tower;
+import data.towers.TowerCannonBlue;
+import data.towers.TowerIce;
+import data.towers.TowerType;
 import helpers.Clock;
 
 public class Player {
