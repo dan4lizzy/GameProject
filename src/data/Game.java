@@ -13,14 +13,13 @@ public class Game {
   public Game(int[][] map) {
     grid = new TileGrid(map);
     waveManager = new WaveManager(
-        new Enemy(QuickLoad("UFO64"), grid.getTile(10, 8), grid, TILE_SIZE, TILE_SIZE, 70, 25), 2,
+        new Enemy(QuickLoad("UFO64"), grid.getTile(10, 8), grid, TILE_SIZE, TILE_SIZE, 70, 100), 2,
         2);
     player = new Player(grid, waveManager);
+    player.setup();
   }
 
   public void update() {
-    // test += Delta();
-    // System.out.println(test);
     grid.draw();
     waveManager.update();
     player.update();

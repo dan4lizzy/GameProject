@@ -18,6 +18,7 @@ public class Player {
   private WaveManager waveManager;
   private ArrayList<Tower> towerList;
   private boolean leftMouseButtonDown, rightMouseButtonDown;
+  public static int Cash, Lives;
 
   public Player(TileGrid grid, WaveManager waveManager) {
     this.grid = grid;
@@ -29,6 +30,29 @@ public class Player {
     this.towerList = new ArrayList<Tower>();
     this.leftMouseButtonDown = false;
     this.rightMouseButtonDown = false;
+    Cash = 0;
+    Lives = 0;
+  }
+
+  public void setup() {
+    Cash = 50;
+    Lives = 10;
+  }
+
+  public static boolean modifyCash(int amount) {
+    if (Cash + amount >= 0) {
+      Cash += amount;
+      System.out.println("Cash: " + Cash);
+      return true;
+    }
+    return false;
+  }
+
+  // Yuk, most of the time this is going to be up/down by one,
+  // so it should be formatted similar to modify cash and then add
+  // increment/decrementLife methods
+  public static void modifyLives(int amount) {
+    Lives += amount;
   }
 
   public void update() {
@@ -41,15 +65,17 @@ public class Player {
     // Handle mouse inputs
     if (Mouse.isButtonDown(0) && !leftMouseButtonDown) {
       System.out.println("Mouse button 0 down");
-      towerList.add(new TowerCannonBlue(TowerType.CannonRed,
-          grid.getTile(Mouse.getX() / TILE_SIZE, (HEIGHT - Mouse.getY() - 1) / TILE_SIZE),
-          waveManager.getCurrentWave().getEnemyList()));
+      if (modifyCash(-20))
+        towerList.add(new TowerCannonBlue(TowerType.CannonRed,
+            grid.getTile(Mouse.getX() / TILE_SIZE, (HEIGHT - Mouse.getY() - 1) / TILE_SIZE),
+            waveManager.getCurrentWave().getEnemyList()));
     }
     if (Mouse.isButtonDown(1) && !rightMouseButtonDown) {
       System.out.println("Mouse button 0 down");
-      towerList.add(new TowerIce(TowerType.CannonIce,
-          grid.getTile(Mouse.getX() / TILE_SIZE, (HEIGHT - Mouse.getY() - 1) / TILE_SIZE),
-          waveManager.getCurrentWave().getEnemyList()));
+      if (modifyCash(-55))
+        towerList.add(new TowerIce(TowerType.CannonIce,
+            grid.getTile(Mouse.getX() / TILE_SIZE, (HEIGHT - Mouse.getY() - 1) / TILE_SIZE),
+            waveManager.getCurrentWave().getEnemyList()));
     }
 
     leftMouseButtonDown = Mouse.isButtonDown(0);

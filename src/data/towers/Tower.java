@@ -14,12 +14,12 @@ import data.projectiles.ProjectileIceball;
 
 public abstract class Tower implements Entity {
 
-  private float x, y, ammoVelocity, timeSinceLastShot, firingSpeed, angle;
+  private float x, y, ammoVelocity, timeSinceLastShot, firingSpeed, angle, maxRotationSpeed;
   private int width, height, damage, range;
   private Enemy target;
   private Texture[] textures;
   private ArrayList<Enemy> enemies;
-  private boolean targeted;
+  private boolean targeted, initialAcquire;
   private ArrayList<Projectile> projectiles;
 
   public Tower(TowerType type, Tile startTile, ArrayList<Enemy> enemies) {
@@ -35,6 +35,10 @@ public abstract class Tower implements Entity {
     this.targeted = false;
     this.timeSinceLastShot = 0;
     this.projectiles = new ArrayList<Projectile>();
+    // don't want turrets to instantly point to target,
+    // but to swing to it relatively quickly
+    this.initialAcquire = false;
+    this.maxRotationSpeed = 5; // degrees
 
     // My code modifications
     this.ammoVelocity = 900;
@@ -46,9 +50,10 @@ public abstract class Tower implements Entity {
     // this number is so big that any enemy should be closer
     float closestDistance = 10000;
     for (Enemy e : enemies) {
-      if (isInRange(e) && findDistance(e) < closestDistance) {
+      if (e.isAlive() && isInRange(e) && findDistance(e) < closestDistance) {
         closestDistance = findDistance(e);
         closest = e;
+        initialAcquire = true;
       }
     }
     // return enemies.get(0);
@@ -77,14 +82,27 @@ public abstract class Tower implements Entity {
   }
 
   private float calculateAngle() {
+    if (target == null) {
+      return angle;
+    }
     float xCannonCenterOfMass = (x + textures[0].getImageWidth() / 2);
     float yCannonCenterOfMass = (y + textures[0].getImageHeight() / 2);
     float xTargetCenterOfMass = (target.getX() + target.getWidth() / 2);
     float yTargetCenterOfMass = (target.getY() + target.getHeight() / 2);
     float xDistanceFromTarget = xTargetCenterOfMass - xCannonCenterOfMass;
     float yDistanceFromTarget = yTargetCenterOfMass - yCannonCenterOfMass;
-    double angleTemp = Math.atan2(yDistanceFromTarget, xDistanceFromTarget);
-    return (float) Math.toDegrees(angleTemp) - 90;
+    float angleToTarget =
+        (float) Math.toDegrees(Math.atan2(yDistanceFromTarget, xDistanceFromTarget)) - 90;
+    if (initialAcquire) { // only limit speed to track to target on initial aquire
+      float changeInAngle = angleToTarget - angle;
+      if (Math.abs(changeInAngle) < maxRotationSpeed) {
+        initialAcquire = false;
+      } else {
+        // current angle + delta direction * delta magnitude
+        angleToTarget = angle + (changeInAngle / Math.abs(changeInAngle)) * maxRotationSpeed;
+      }
+    }
+    return angleToTarget;
   }
 
   protected void shoot() {

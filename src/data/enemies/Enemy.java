@@ -8,6 +8,7 @@ import org.newdawn.slick.opengl.Texture;
 import data.Checkpoint;
 import data.Entity;
 import data.HealthBar;
+import data.Player;
 import data.Tile;
 import data.TileGrid;
 
@@ -85,7 +86,7 @@ public class Enemy implements Entity {
     else {
       if (checkpointReached()) {
         if (currentCheckpoint + 1 == checkpoints.size()) {
-          die();
+          endOfMazeReached();
         } else
           currentCheckpoint++;
       } else {
@@ -95,6 +96,11 @@ public class Enemy implements Entity {
       healthBar.setPosition(x, y);
       healthBar.setHealth(health);
     }
+  }
+
+  private void endOfMazeReached() {
+    Player.modifyLives(-1);
+    die();
   }
 
   private boolean checkpointReached() {
@@ -179,9 +185,11 @@ public class Enemy implements Entity {
 
   public void damage(int amount) {
     health -= amount;
-    System.out.println("Enemy health: " + health);
-    if (health <= 0)
+    // System.out.println("Enemy health: " + health);
+    if (health <= 0) {
       die();
+      Player.modifyCash(5);
+    }
   }
 
   private void die() {
