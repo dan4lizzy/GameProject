@@ -4,7 +4,7 @@ import static helpers.Artist.DrawQuadTex;
 import static helpers.Artist.DrawQuadTexRot;
 import static helpers.Artist.QuickLoad;
 import static helpers.Clock.Delta;
-import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 import org.newdawn.slick.opengl.Texture;
 import data.Tile;
 import data.enemies.Enemy;
@@ -17,13 +17,13 @@ public class TowerCannon {
   private Texture baseTexture, cannonTexture;
   // does startTile really need to be a global? we are only using it to get X & Y in constructor
   private Tile startTile;
-  private ArrayList<Projectile> projectiles;
-  private ArrayList<Enemy> enemies;
+  private CopyOnWriteArrayList<Projectile> projectiles;
+  private CopyOnWriteArrayList<Enemy> enemies;
   private Enemy target;
   private boolean targeted;
 
   public TowerCannon(Texture texture, Tile startTile, int damage, int range,
-      ArrayList<Enemy> enemies) {
+      CopyOnWriteArrayList<Enemy> enemies) {
     this.baseTexture = texture;
     this.cannonTexture = QuickLoad("cannonGun");
     this.startTile = startTile;
@@ -35,7 +35,7 @@ public class TowerCannon {
     this.range = range;
     this.firingSpeed = 3;
     this.timeSinceLastShot = 0;
-    this.projectiles = new ArrayList<Projectile>();
+    this.projectiles = new CopyOnWriteArrayList<Projectile>();
     this.enemies = enemies;
     this.targeted = false;
     this.damage = 10;
@@ -113,7 +113,7 @@ public class TowerCannon {
         ammoVelocity, damage));
   }
 
-  public void updateEnemyList(ArrayList<Enemy> newList) {
+  public void updateEnemyList(CopyOnWriteArrayList<Enemy> newList) {
     enemies = newList;
   }
 

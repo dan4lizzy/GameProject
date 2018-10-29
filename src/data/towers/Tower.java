@@ -5,6 +5,7 @@ import static helpers.Artist.DrawQuadTexRot;
 import static helpers.Artist.QuickLoad;
 import static helpers.Clock.Delta;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 import org.newdawn.slick.opengl.Texture;
 import data.Entity;
 import data.Tile;
@@ -18,11 +19,11 @@ public abstract class Tower implements Entity {
   private int width, height, damage, range;
   private Enemy target;
   private Texture[] textures;
-  private ArrayList<Enemy> enemies;
+  private CopyOnWriteArrayList<Enemy> enemies;
   private boolean targeted, initialAcquire;
   private ArrayList<Projectile> projectiles;
 
-  public Tower(TowerType type, Tile startTile, ArrayList<Enemy> enemies) {
+  public Tower(TowerType type, Tile startTile, CopyOnWriteArrayList<Enemy> enemies) {
     this.textures = type.textures;
     this.damage = type.damage;
     this.range = type.range;
@@ -56,7 +57,6 @@ public abstract class Tower implements Entity {
         initialAcquire = true;
       }
     }
-    // return enemies.get(0);
     if (closest != null)
       targeted = true;
     return closest;
@@ -116,23 +116,25 @@ public abstract class Tower implements Entity {
         ammoVelocity, damage));
   }
 
-  public void updateEnemyList(ArrayList<Enemy> newList) {
+  public void updateEnemyList(CopyOnWriteArrayList<Enemy> newList) {
     enemies = newList;
   }
 
   @Override
   public void update() {
+    timeSinceLastShot += Delta();
+
     if (!targeted) {
       target = acquireTarget();
+    } else {
+      if (timeSinceLastShot > firingSpeed) {
+        shoot();
+        timeSinceLastShot = 0;
+      }
     }
 
     if (target == null || target.isAlive() == false)
       targeted = false;
-    timeSinceLastShot += Delta();
-    if (timeSinceLastShot > firingSpeed && targeted) {
-      shoot();
-      timeSinceLastShot = 0;
-    }
 
     for (Projectile p : projectiles)
       p.update();
