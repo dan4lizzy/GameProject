@@ -15,7 +15,7 @@ import data.projectiles.ProjectileIceball;
 
 public abstract class Tower implements Entity {
 
-  private float x, y, ammoVelocity, timeSinceLastShot, firingSpeed, angle, maxRotationSpeed;
+  private float x, y, ammoVelocity, timeSinceLastShot, firingSpeed, azimuth, maxRotationSpeed;
   private int width, height, damage, range;
   private Enemy target;
   private Texture[] textures;
@@ -43,7 +43,7 @@ public abstract class Tower implements Entity {
 
     // My code modifications
     this.ammoVelocity = 900;
-    this.angle = 0;
+    this.azimuth = 0;
   }
 
   private Enemy acquireTarget() {
@@ -83,7 +83,7 @@ public abstract class Tower implements Entity {
 
   private float calculateAngle() {
     if (target == null) {
-      return angle;
+      return azimuth;
     }
     float xCannonCenterOfMass = (x + textures[0].getImageWidth() / 2);
     float yCannonCenterOfMass = (y + textures[0].getImageHeight() / 2);
@@ -91,18 +91,35 @@ public abstract class Tower implements Entity {
     float yTargetCenterOfMass = (target.getY() + target.getHeight() / 2);
     float xDistanceFromTarget = xTargetCenterOfMass - xCannonCenterOfMass;
     float yDistanceFromTarget = yTargetCenterOfMass - yCannonCenterOfMass;
-    float angleToTarget =
+    // default: -90 gets turret pointing in the correct direction
+    float azimuthToTarget =
         (float) Math.toDegrees(Math.atan2(yDistanceFromTarget, xDistanceFromTarget)) - 90;
-    if (initialAcquire) { // only limit speed to track to target on initial aquire
-      float changeInAngle = angleToTarget - angle;
+
+    if (initialAcquire) { // only limit speed to track to target on initial acquire
+      float changeInAngle = azimuthToTarget - azimuth;
       if (Math.abs(changeInAngle) < maxRotationSpeed) {
         initialAcquire = false;
       } else {
-        // current angle + delta direction * delta magnitude
-        angleToTarget = angle + (changeInAngle / Math.abs(changeInAngle)) * maxRotationSpeed;
+        if (Math.abs(changeInAngle) > 180) {
+          float magnitude = 1;
+          if (changeInAngle > 0) { // e.g. 181 to 359
+            magnitude = -1;
+          }
+          changeInAngle = magnitude * (360 - Math.abs(changeInAngle));
+        }
+        if (Math.abs(changeInAngle) > maxRotationSpeed) {
+          if (changeInAngle > 0) { // e.g. 0 < x <= 180
+            changeInAngle = maxRotationSpeed;
+          } else { // e.g. -180 <= x <= 0
+            changeInAngle = -1 * maxRotationSpeed;
+          }
+        }
+        azimuthToTarget = azimuth + changeInAngle;
+        if (azimuthToTarget > 90) //
+          azimuthToTarget -= 360;
       }
     }
-    return angleToTarget;
+    return azimuthToTarget;
   }
 
   protected void shoot() {
@@ -127,7 +144,7 @@ public abstract class Tower implements Entity {
     if (!targeted) {
       target = acquireTarget();
     } else {
-      if (timeSinceLastShot > firingSpeed) {
+      if (timeSinceLastShot > firingSpeed && !initialAcquire) {
         shoot();
         timeSinceLastShot = 0;
       }
@@ -139,7 +156,7 @@ public abstract class Tower implements Entity {
     for (Projectile p : projectiles)
       p.update();
 
-    angle = calculateAngle();
+    azimuth = calculateAngle();
     draw();
   }
 
@@ -148,7 +165,7 @@ public abstract class Tower implements Entity {
     DrawQuadTex(textures[0], x, y, width, height);
     if (textures.length > 1)
       for (int i = 1; i < textures.length; i++) {
-        DrawQuadTexRot(textures[i], x, y, width, height, angle);
+        DrawQuadTexRot(textures[i], x, y, width, height, azimuth);
       }
   }
 
