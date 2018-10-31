@@ -2,7 +2,6 @@ package data.towers;
 
 import static helpers.Artist.DrawQuadTex;
 import static helpers.Artist.DrawQuadTexRot;
-import static helpers.Artist.QuickLoad;
 import static helpers.Clock.Delta;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -11,19 +10,20 @@ import data.Entity;
 import data.Tile;
 import data.enemies.Enemy;
 import data.projectiles.Projectile;
-import data.projectiles.ProjectileIceball;
 
 public abstract class Tower implements Entity {
 
   private float x, y, ammoVelocity, timeSinceLastShot, firingSpeed, azimuth, maxRotationSpeed;
   private int width, height, damage, range;
   private Enemy target;
-  private Texture[] textures;
+  protected Texture[] textures;
   private CopyOnWriteArrayList<Enemy> enemies;
   private boolean targeted, initialAcquire;
-  private ArrayList<Projectile> projectiles;
+  protected ArrayList<Projectile> projectiles;
+  protected TowerType type;
 
   public Tower(TowerType type, Tile startTile, CopyOnWriteArrayList<Enemy> enemies) {
+    this.type = type;
     this.textures = type.textures;
     this.damage = type.damage;
     this.range = type.range;
@@ -122,16 +122,7 @@ public abstract class Tower implements Entity {
     return azimuthToTarget;
   }
 
-  protected void shoot() {
-    float xTileCenter = textures[0].getImageWidth() / 2;
-    float yTileCenter = textures[0].getImageHeight() / 2;
-    Texture bullet = QuickLoad("bullet");
-    float xProjectileOffset = bullet.getImageWidth() / 2;
-    float yProjectileOffset = bullet.getImageWidth() / 2;
-    projectiles.add(new ProjectileIceball(bullet, target, x + xTileCenter - xProjectileOffset,
-        y + yTileCenter - yProjectileOffset, bullet.getImageWidth(), bullet.getImageHeight(),
-        ammoVelocity, damage));
-  }
+  public abstract void shoot(Enemy target);
 
   public void updateEnemyList(CopyOnWriteArrayList<Enemy> newList) {
     enemies = newList;
@@ -144,8 +135,9 @@ public abstract class Tower implements Entity {
     if (!targeted) {
       target = acquireTarget();
     } else {
+      azimuth = calculateAngle();
       if (timeSinceLastShot > firingSpeed && !initialAcquire) {
-        shoot();
+        shoot(target);
         timeSinceLastShot = 0;
       }
     }
@@ -156,7 +148,6 @@ public abstract class Tower implements Entity {
     for (Projectile p : projectiles)
       p.update();
 
-    azimuth = calculateAngle();
     draw();
   }
 
@@ -179,6 +170,10 @@ public abstract class Tower implements Entity {
     return y;
   }
 
+  public float[] getCoord() {
+    return new float[] {x, y};
+  }
+
   @Override
   public int getWidth() {
     return width;
@@ -187,6 +182,10 @@ public abstract class Tower implements Entity {
   @Override
   public int getHeight() {
     return height;
+  }
+
+  public float[] getSize() {
+    return new float[] {textures[0].getImageWidth(), textures[0].getImageWidth()};
   }
 
   @Override

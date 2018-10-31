@@ -31,6 +31,7 @@ public class WaveManager {
   private void newWave() {
     currentWave = new Wave(enemyType, timeBetweenEnemies, enemiesPerWave);
     waveNumber++;
+    // TODO Remove/comment out the following line
     System.out.println("Beginning Wave " + waveNumber);
   }
 

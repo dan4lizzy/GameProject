@@ -15,15 +15,24 @@ public abstract class Projectile implements Entity {
   private Enemy target;
   private boolean alive;
 
-  public Projectile(Texture texture, Enemy target, float x, float y, int width, int height,
-      float speed, int damage) {
-    this.texture = texture;
+  public Projectile(ProjectileType type, Enemy target, float x, float y) {
     this.x = x;
     this.y = y;
-    this.width = width;
-    this.height = height;
-    this.speed = speed;
-    this.damage = damage;
+    helper(type, target);
+  }
+
+  public Projectile(ProjectileType type, Enemy target, float[] towerCoord, float[] towerSize) {
+    this.x = towerCoord[0] + towerSize[0] / 2 - type.texture.getImageWidth() / 2;
+    this.y = towerCoord[1] + towerSize[1] / 2 - type.texture.getImageHeight() / 2;
+    helper(type, target);
+  }
+
+  private void helper(ProjectileType type, Enemy target) {
+    this.texture = type.texture;
+    this.width = this.texture.getImageWidth();
+    this.height = this.texture.getImageHeight();
+    this.speed = type.speed;
+    this.damage = type.damage;
     this.target = target;
     this.alive = true;
     this.xVelocity = 0;
@@ -32,22 +41,6 @@ public abstract class Projectile implements Entity {
   }
 
   private void calculateDirection() {
-    // this is per the tutorial, but it's incorrect per trigonometry
-    // float xDistanceFromTarget = Math.abs(target.getX() - x);
-    // float yDistanceFromTarget = Math.abs(target.getY() - y);
-    // float totalAllowedMovement = 1.0f; // this is 100%, speed is handled in the draw method
-    // float totalDistanceFromTargetInvalid = xDistanceFromTarget + yDistanceFromTarget;
-    // float xPercentOfMovement = xDistanceFromTarget / totalDistanceFromTargetInvalid;
-    // xVelocity = xPercentOfMovement;
-    // yVelocity = totalAllowedMovement - xPercentOfMovement;
-    // if (target.getX() < x)
-    // xVelocity *= -1;
-    // if (target.getY() < y)
-    // yVelocity *= -1;
-
-    // trigonometric solution using the Pythagorean theorem
-    // a^2 + b^2 = c^2 and with a unit circle the hypotenuse is equal
-    // to 1 so we don't need the totalAllowedMovement variable
     float xProjectileCenterOfMass = (x + texture.getImageWidth() / 2);
     float yProjectileCenterOfMass = (y + texture.getImageHeight() / 2);
     float xTargetCenterOfMass = (target.getX() + target.getWidth() / 2);

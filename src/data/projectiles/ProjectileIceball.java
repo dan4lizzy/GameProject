@@ -1,20 +1,23 @@
 package data.projectiles;
 
-import org.newdawn.slick.opengl.Texture;
 import data.enemies.Enemy;
 
 public class ProjectileIceball extends Projectile {
 
-  public ProjectileIceball(Texture texture, Enemy target, float x, float y, int width, int height,
-      float speed, int damage) {
-    super(texture, target, x, y, width, height, speed, damage);
+  public ProjectileIceball(ProjectileType type, Enemy target, float x, float y) {
+    super(type, target, x, y);
+  }
+
+  public ProjectileIceball(ProjectileType type, Enemy target, float[] towerCoord,
+      float[] towerSize) {
+    super(type, target, towerCoord, towerSize);
   }
 
   @Override
   public void damage() {
     // TODO should this be a reduction to value or by a percentage down?
     super.getTarget().setSpeed(4f);
-    // super.setAlive(false); // uncomment this line if desirable to just slow down enemy
+    // comment the following line if desirable to just slow down enemy
     super.damage();
   }
 }

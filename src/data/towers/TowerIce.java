@@ -3,6 +3,7 @@ package data.towers;
 import java.util.concurrent.CopyOnWriteArrayList;
 import data.Tile;
 import data.enemies.Enemy;
+import data.projectiles.ProjectileIceball;
 
 public class TowerIce extends Tower {
 
@@ -11,7 +12,8 @@ public class TowerIce extends Tower {
   }
 
   @Override
-  protected void shoot() {
-    super.shoot();
+  public void shoot(Enemy target) {
+    projectiles.add(new ProjectileIceball(super.type.projectileType, super.getTarget(),
+        super.getCoord(), super.getSize()));
   }
 }

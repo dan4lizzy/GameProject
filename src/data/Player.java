@@ -35,13 +35,14 @@ public class Player {
   }
 
   public void setup() {
-    Cash = 50;
+    Cash = 200;
     Lives = 10;
   }
 
   public static boolean modifyCash(int amount) {
     if (Cash + amount >= 0) {
       Cash += amount;
+      // TODO Remove/comment out the following line
       System.out.println("Cash: " + Cash);
       return true;
     }
@@ -53,6 +54,8 @@ public class Player {
   // increment/decrementLife methods
   public static void modifyLives(int amount) {
     Lives += amount;
+    // TODO Remove/comment out the following line
+    System.out.println("Lives: " + Lives);
   }
 
   public void update() {
@@ -64,14 +67,14 @@ public class Player {
 
     // Handle mouse inputs
     if (Mouse.isButtonDown(0) && !leftMouseButtonDown) {
-      System.out.println("Mouse button 0 down");
+      // System.out.println("Mouse button 0 down");
       if (modifyCash(-20))
         towerList.add(new TowerCannonBlue(TowerType.CannonRed,
             grid.getTile(Mouse.getX() / TILE_SIZE, (HEIGHT - Mouse.getY() - 1) / TILE_SIZE),
             waveManager.getCurrentWave().getEnemyList()));
     }
     if (Mouse.isButtonDown(1) && !rightMouseButtonDown) {
-      System.out.println("Mouse button 0 down");
+      // System.out.println("Mouse button 1 down");
       if (modifyCash(-55))
         towerList.add(new TowerIce(TowerType.CannonIce,
             grid.getTile(Mouse.getX() / TILE_SIZE, (HEIGHT - Mouse.getY() - 1) / TILE_SIZE),

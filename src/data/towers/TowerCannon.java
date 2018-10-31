@@ -9,7 +9,8 @@ import org.newdawn.slick.opengl.Texture;
 import data.Tile;
 import data.enemies.Enemy;
 import data.projectiles.Projectile;
-import data.projectiles.ProjectileIceball;
+import data.projectiles.ProjectileCannonball;
+import data.projectiles.ProjectileType;
 
 public class TowerCannon {
   private float x, y, timeSinceLastShot, firingSpeed, angle, ammoVelocity;
@@ -108,9 +109,11 @@ public class TowerCannon {
     Texture bullet = QuickLoad("bullet");
     float xProjectileOffset = bullet.getImageWidth() / 2;
     float yProjectileOffset = bullet.getImageWidth() / 2;
-    projectiles.add(new ProjectileIceball(bullet, target, x + xTileCenter - xProjectileOffset,
-        y + yTileCenter - yProjectileOffset, bullet.getImageWidth(), bullet.getImageHeight(),
-        ammoVelocity, damage));
+    // projectiles.add(new ProjectileBullet(bullet, target, x + xTileCenter - xProjectileOffset,
+    // y + yTileCenter - yProjectileOffset, bullet.getImageWidth(), bullet.getImageHeight(),
+    // ammoVelocity, damage));
+    projectiles.add(new ProjectileCannonball(ProjectileType.CannonBall, target,
+        x + xTileCenter - xProjectileOffset, y + yTileCenter - yProjectileOffset));
   }
 
   public void updateEnemyList(CopyOnWriteArrayList<Enemy> newList) {

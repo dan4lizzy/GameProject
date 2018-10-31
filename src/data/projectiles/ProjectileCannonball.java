@@ -2,13 +2,13 @@ package data.projectiles;
 
 import data.enemies.Enemy;
 
-public class ProjectileBullet extends Projectile {
+public class ProjectileCannonball extends Projectile {
 
-  public ProjectileBullet(ProjectileType type, Enemy target, float x, float y) {
+  public ProjectileCannonball(ProjectileType type, Enemy target, float x, float y) {
     super(type, target, x, y);
   }
 
-  public ProjectileBullet(ProjectileType type, Enemy target, float[] towerCoord,
+  public ProjectileCannonball(ProjectileType type, Enemy target, float[] towerCoord,
       float[] towerSize) {
     super(type, target, towerCoord, towerSize);
   }
@@ -17,5 +17,4 @@ public class ProjectileBullet extends Projectile {
   public void damage() {
     super.damage();
   }
-
 }
