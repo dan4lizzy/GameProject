@@ -26,10 +26,17 @@ public class Enemy implements Entity {
 
   public Enemy(Texture texture, Tile startTile, TileGrid grid, int width, int height, float speed,
       float health) {
+    constructorHelper(texture, startTile, grid, width, height, speed, health);
+  }
+
+  public Enemy(Enemy enemy) {
+    constructorHelper(enemy.getTexture(), enemy.getStartTile(), enemy.getTileGrid(),
+        enemy.getWidth(), enemy.getHeight(), enemy.getSpeed(), enemy.getHealth());
+  }
+
+  private void constructorHelper(Texture texture, Tile startTile, TileGrid grid, int width,
+      int height, float speed, float health) {
     this.texture = texture;
-    // this.healthBackground = QuickLoad("healthBackground");
-    // this.healthForeground = QuickLoad("healthForeground");
-    // this.healthBorder = QuickLoad("healthBorder");
     this.startTile = startTile;
     this.grid = grid;
     this.first = true;
@@ -41,33 +48,6 @@ public class Enemy implements Entity {
     this.speed = speed;
     this.startHealth = health;
     this.health = health;
-    this.healthBar = new HealthBar(x, y, width, height, startHealth, health);
-
-    this.checkpoints = new ArrayList<Checkpoint>();
-    this.directions = new int[2];
-    // X Direction
-    this.directions[0] = 0;
-    // Y Direction
-    this.directions[1] = 0;
-    this.directions = findNextDirection(startTile);
-    this.currentCheckpoint = 0;
-    populateCheckpointList();
-  }
-
-  public Enemy(Enemy enemy) {
-    this.texture = enemy.getTexture();
-    // this.healthBackground = QuickLoad("healthBackground");
-    // this.healthForeground = QuickLoad("healthForeground");
-    // this.healthBorder = QuickLoad("healthBorder");
-    this.startTile = enemy.getStartTile();
-    this.grid = enemy.getTileGrid();
-    this.x = enemy.getStartTile().getX();
-    this.y = enemy.getStartTile().getY();
-    this.width = enemy.getWidth();
-    this.height = enemy.getHeight();
-    this.speed = enemy.getWidth();
-    this.health = enemy.getHealth();
-    this.startHealth = enemy.getHealth();
     this.healthBar = new HealthBar(x, y, width, height, startHealth, health);
 
     this.checkpoints = new ArrayList<Checkpoint>();
