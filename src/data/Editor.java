@@ -15,7 +15,6 @@ public class Editor {
   public Editor() {
     this.grid = loadMap("mapTest.map");
     this.index = 0;
-
     this.types = new TileType[3];
     this.types[0] = TileType.Grass;
     this.types[1] = TileType.Dirt;
@@ -35,6 +34,9 @@ public class Editor {
       if (Keyboard.getEventKey() == Keyboard.KEY_RIGHT && Keyboard.getEventKeyState()) {
         moveIndex();
       }
+      if (Keyboard.getEventKey() == Keyboard.KEY_C && Keyboard.getEventKeyState()) {
+        grid = new TileGrid();
+      }
       if (Keyboard.getEventKey() == Keyboard.KEY_S && Keyboard.getEventKeyState()) {
         saveMap("mapTest.map", grid);
       }
@@ -46,6 +48,7 @@ public class Editor {
         (int) Math.floor((HEIGHT - Mouse.getY() - 1) / TILE_SIZE), types[index]);
   }
 
+  // Allows editor to change which TileType is selected
   private void moveIndex() {
     index++;
     if (index > types.length - 1) {

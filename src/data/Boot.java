@@ -8,13 +8,16 @@ import helpers.StateManager;
 public class Boot {
 
   public Boot() {
+
+    // Call static method in Artist class to initialize OpenGL calls
     BeginSession();
 
+    // Main game loop
     while (!Display.isCloseRequested()) {
       Clock.update();
       StateManager.update();
       Display.update();
-      Display.sync(60);
+      Display.sync(60); // fps
     }
     Display.destroy();
   }

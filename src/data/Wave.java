@@ -24,6 +24,7 @@ public class Wave {
   }
 
   public void update() {
+    // Assume all enemies are dead, until for loop proves otherwise
     boolean allEnemiesDead = true;
     if (enemiesSpawned < enemiesPerWave) {
       timeSinceLastSpawn += Delta();

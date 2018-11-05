@@ -1,7 +1,6 @@
 package data.enemies;
 
 import static helpers.Artist.DrawQuadTex;
-import static helpers.Artist.QuickLoad;
 import static helpers.Clock.Delta;
 import java.util.ArrayList;
 import org.newdawn.slick.opengl.Texture;
@@ -15,10 +14,11 @@ import data.TileGrid;
 public class Enemy implements Entity {
   private int width, height, currentCheckpoint;
   private float x, y, speed, startHealth, health;
-  private Texture texture, healthBackground, healthForeground, healthBorder;
+  private Texture texture;
+  // healthBackground, healthForeground, healthBorder;
   private Tile startTile;
   private TileGrid grid;
-  private boolean first = true, alive = true;
+  private boolean first, alive;
   private HealthBar healthBar;
 
   private ArrayList<Checkpoint> checkpoints;
@@ -27,11 +27,13 @@ public class Enemy implements Entity {
   public Enemy(Texture texture, Tile startTile, TileGrid grid, int width, int height, float speed,
       float health) {
     this.texture = texture;
-    this.healthBackground = QuickLoad("healthBackground");
-    this.healthForeground = QuickLoad("healthForeground");
-    this.healthBorder = QuickLoad("healthBorder");
+    // this.healthBackground = QuickLoad("healthBackground");
+    // this.healthForeground = QuickLoad("healthForeground");
+    // this.healthBorder = QuickLoad("healthBorder");
     this.startTile = startTile;
     this.grid = grid;
+    this.first = true;
+    this.alive = true;
     this.x = startTile.getX();
     this.y = startTile.getY();
     this.width = width;
@@ -54,9 +56,9 @@ public class Enemy implements Entity {
 
   public Enemy(Enemy enemy) {
     this.texture = enemy.getTexture();
-    this.healthBackground = QuickLoad("healthBackground");
-    this.healthForeground = QuickLoad("healthForeground");
-    this.healthBorder = QuickLoad("healthBorder");
+    // this.healthBackground = QuickLoad("healthBackground");
+    // this.healthForeground = QuickLoad("healthForeground");
+    // this.healthBorder = QuickLoad("healthBorder");
     this.startTile = enemy.getStartTile();
     this.grid = enemy.getTileGrid();
     this.x = enemy.getStartTile().getX();
@@ -81,15 +83,18 @@ public class Enemy implements Entity {
 
   @Override
   public void update() {
+    // Check if it's the first time this class is updated, if so do nothing
     if (first)
       first = false;
     else {
       if (checkpointReached()) {
+        // Check if there are move checkpoints before moving on
         if (currentCheckpoint + 1 == checkpoints.size()) {
           endOfMazeReached();
         } else
           currentCheckpoint++;
       } else {
+        // if not at a checkpoint, continue in the current direction
         x += Delta() * checkpoints.get(currentCheckpoint).getxDirection() * speed;
         y += Delta() * checkpoints.get(currentCheckpoint).getyDirection() * speed;
       }
@@ -98,6 +103,7 @@ public class Enemy implements Entity {
     }
   }
 
+  // run when last checkpoint is reached by enemy
   private void endOfMazeReached() {
     Player.modifyLives(-1);
     die();
@@ -116,6 +122,7 @@ public class Enemy implements Entity {
   }
 
   private void populateCheckpointList() {
+    // Add checkpoing manually based on startTile
     checkpoints.add(findNextCheckpoint(startTile, directions = findNextDirection(startTile)));
     int counter = 0;
     boolean cont = true;
@@ -146,7 +153,7 @@ public class Enemy implements Entity {
               .getTile(s.getXPlace() + dir[0] * counter, s.getYPlace() + dir[1] * counter)
               .getType()) {
         found = true;
-        // Move counter back 1 to find tile before new tiletype
+        // Move counter back 1 to find tile before new TileType
         counter--;
         next = grid.getTile(s.getXPlace() + dir[0] * counter, s.getYPlace() + dir[1] * counter);
       }
@@ -163,6 +170,7 @@ public class Enemy implements Entity {
     Tile down = grid.getTile(s.getXPlace(), s.getYPlace() + 1);
     Tile left = grid.getTile(s.getXPlace() - 1, s.getYPlace());
 
+    // Check if current inhabited TileType matches TileType above, right, down and left Tiles
     if (s.getType() == up.getType() && directions[1] != 1) {
       dir[0] = 0;
       dir[1] = -1;
@@ -183,9 +191,9 @@ public class Enemy implements Entity {
     return dir;
   }
 
+  // Take damage from external source
   public void damage(int amount) {
     health -= amount;
-    // System.out.println("Enemy health: " + health);
     if (health <= 0) {
       die();
       Player.modifyCash(5);
@@ -200,10 +208,6 @@ public class Enemy implements Entity {
   public void draw() {
     DrawQuadTex(texture, x, y, width, height);
     if (health != startHealth) {
-      // float healthPercentage = health / startHealth;
-      // DrawQuadTex(healthBackground, x, y - 16, width, 8);
-      // DrawQuadTex(healthForeground, x, y - 16, width * healthPercentage, 8);
-      // DrawQuadTex(healthBorder, x, y - 16, width, 8);
       healthBar.update();
     }
   }
@@ -299,4 +303,6 @@ public class Enemy implements Entity {
   public boolean isAlive() {
     return alive;
   }
+
+
 }

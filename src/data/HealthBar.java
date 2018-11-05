@@ -9,6 +9,8 @@ public class HealthBar implements Entity {
   private int width, height;
   private Texture healthBackground, healthForeground, healthBorder;
 
+  // TODO create a health bar queue for drawing so that all health bars are rendered above other
+  // objects (or give it a z factor that ensures this is the case)
   public HealthBar(float x, float y, int width, int height, float startHealth,
       float currentHealth) {
     super();

@@ -13,11 +13,9 @@ import data.projectiles.ProjectileCannonball;
 import data.projectiles.ProjectileType;
 
 public class TowerCannon {
-  private float x, y, timeSinceLastShot, firingSpeed, angle, ammoVelocity;
-  private int width, height, damage, range;
+  private float x, y, timeSinceLastShot, firingSpeed, angle;
+  private int width, height, range;
   private Texture baseTexture, cannonTexture;
-  // does startTile really need to be a global? we are only using it to get X & Y in constructor
-  private Tile startTile;
   private CopyOnWriteArrayList<Projectile> projectiles;
   private CopyOnWriteArrayList<Enemy> enemies;
   private Enemy target;
@@ -27,22 +25,16 @@ public class TowerCannon {
       CopyOnWriteArrayList<Enemy> enemies) {
     this.baseTexture = texture;
     this.cannonTexture = QuickLoad("cannonGun");
-    this.startTile = startTile;
     this.x = startTile.getX();
     this.y = startTile.getY();
     this.width = startTile.getWidth();
     this.height = startTile.getHeight();
-    this.damage = damage;
     this.range = range;
     this.firingSpeed = 3;
     this.timeSinceLastShot = 0;
     this.projectiles = new CopyOnWriteArrayList<Projectile>();
     this.enemies = enemies;
     this.targeted = false;
-    this.damage = 10;
-
-    // My code modifications
-    this.ammoVelocity = 900;
   }
 
   private Enemy acquireTarget() {

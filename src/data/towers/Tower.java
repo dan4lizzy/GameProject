@@ -13,8 +13,8 @@ import data.projectiles.Projectile;
 
 public abstract class Tower implements Entity {
 
-  private float x, y, ammoVelocity, timeSinceLastShot, firingSpeed, azimuth, maxRotationSpeed;
-  private int width, height, damage, range;
+  private float x, y, timeSinceLastShot, firingSpeed, azimuth, maxRotationSpeed;
+  private int width, height, range;
   private Enemy target;
   protected Texture[] textures;
   private CopyOnWriteArrayList<Enemy> enemies;
@@ -25,7 +25,6 @@ public abstract class Tower implements Entity {
   public Tower(TowerType type, Tile startTile, CopyOnWriteArrayList<Enemy> enemies) {
     this.type = type;
     this.textures = type.textures;
-    this.damage = type.damage;
     this.range = type.range;
     this.firingSpeed = type.firingSpeed;
     this.x = startTile.getX();
@@ -42,14 +41,14 @@ public abstract class Tower implements Entity {
     this.maxRotationSpeed = 5; // degrees
 
     // My code modifications
-    this.ammoVelocity = 900;
     this.azimuth = 0;
   }
 
   private Enemy acquireTarget() {
     Enemy closest = null;
-    // this number is so big that any enemy should be closer
+    // Arbitrary distance (larger than map, to help with sorting Enemy distances
     float closestDistance = 10000;
+    // Go through each Enemy in 'enemies' and return nearest one
     for (Enemy e : enemies) {
       if (e.isAlive() && isInRange(e) && findDistance(e) < closestDistance) {
         closestDistance = findDistance(e);
@@ -57,6 +56,7 @@ public abstract class Tower implements Entity {
         initialAcquire = true;
       }
     }
+    // If an enemy exists and is returned, targeted == true
     if (closest != null)
       targeted = true;
     return closest;
@@ -122,6 +122,7 @@ public abstract class Tower implements Entity {
     return azimuthToTarget;
   }
 
+  // Abstract method for 'shoot', must be overridden in subclasses
   public abstract void shoot(Enemy target);
 
   public void updateEnemyList(CopyOnWriteArrayList<Enemy> newList) {

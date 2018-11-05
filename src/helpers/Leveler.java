@@ -44,6 +44,7 @@ public class Leveler {
 
       br.close();
     } catch (Exception e) {
+      // TODO should this be suppressed, or add a comment that this was caught and handled
       e.printStackTrace();
     }
 

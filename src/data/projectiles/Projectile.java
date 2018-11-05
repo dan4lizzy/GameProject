@@ -55,6 +55,7 @@ public abstract class Projectile implements Entity {
   }
 
   // TODO rename to applyEffect
+  // Deals damage to Enemy
   public void damage() {
     // it may look like it missed, but using the filled bullet
     // and UFO tiles, they do intersect, though the circles themselves
