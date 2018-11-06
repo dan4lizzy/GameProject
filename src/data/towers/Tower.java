@@ -14,7 +14,7 @@ import data.projectiles.Projectile;
 public abstract class Tower implements Entity {
 
   private float x, y, timeSinceLastShot, firingSpeed, azimuth, maxRotationSpeed;
-  private int width, height, range;
+  private int width, height, range, cost;
   private Enemy target;
   protected Texture[] textures;
   private CopyOnWriteArrayList<Enemy> enemies;
@@ -26,6 +26,7 @@ public abstract class Tower implements Entity {
     this.type = type;
     this.textures = type.textures;
     this.range = type.range;
+    this.setCost(type.cost);
     this.firingSpeed = type.firingSpeed;
     this.x = startTile.getX();
     this.y = startTile.getY();
@@ -211,6 +212,14 @@ public abstract class Tower implements Entity {
 
   public Enemy getTarget() {
     return target;
+  }
+
+  public int getCost() {
+    return cost;
+  }
+
+  public void setCost(int cost) {
+    this.cost = cost;
   }
 
 }
