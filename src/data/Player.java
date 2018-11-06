@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import data.towers.Tower;
-import data.towers.TowerCannonBlue;
-import data.towers.TowerIce;
-import data.towers.TowerType;
 import helpers.Clock;
 
 public class Player {
@@ -85,11 +82,7 @@ public class Player {
 
     }
     if (Mouse.isButtonDown(1) && !rightMouseButtonDown) {
-      // System.out.println("Mouse button 1 down");
-      if (modifyCash(-55))
-        towerList.add(new TowerIce(TowerType.CannonIce,
-            grid.getTile(Mouse.getX() / TILE_SIZE, (HEIGHT - Mouse.getY() - 1) / TILE_SIZE),
-            waveManager.getCurrentWave().getEnemyList()));
+      System.out.println("Mouse button 1 down");
     }
 
     leftMouseButtonDown = Mouse.isButtonDown(0);
@@ -109,8 +102,7 @@ public class Player {
   private void placeTower() {
     if (holdingTower)
       if (modifyCash(-20))
-        towerList.add(new TowerCannonBlue(TowerType.CannonRed, getMouseTile(),
-            waveManager.getCurrentWave().getEnemyList()));
+        towerList.add(tempTower);
     holdingTower = false;
     tempTower = null;
   }

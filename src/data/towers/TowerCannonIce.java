@@ -5,9 +5,9 @@ import data.Tile;
 import data.enemies.Enemy;
 import data.projectiles.ProjectileIceball;
 
-public class TowerIce extends Tower {
+public class TowerCannonIce extends Tower {
 
-  public TowerIce(TowerType type, Tile startTile, CopyOnWriteArrayList<Enemy> enemies) {
+  public TowerCannonIce(TowerType type, Tile startTile, CopyOnWriteArrayList<Enemy> enemies) {
     super(type, startTile, enemies);
   }
 

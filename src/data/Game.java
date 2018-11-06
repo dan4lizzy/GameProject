@@ -6,7 +6,7 @@ import org.lwjgl.input.Mouse;
 import UI.UI;
 import data.enemies.Enemy;
 import data.towers.TowerCannonBlue;
-import data.towers.TowerIce;
+import data.towers.TowerCannonIce;
 import data.towers.TowerType;
 
 public class Game {
@@ -29,8 +29,8 @@ public class Game {
   private void setupUI() {
     towerPickerUI = new UI();
     towerPickerUI.addButton("CannonBlue", "cannonBlue", 0, 0);
-    towerPickerUI.addButton("CannonRed", "cannonRed", 0, 64);
-    towerPickerUI.addButton("CannonIce", "cannonIce", 0, 128);
+    towerPickerUI.addButton("CannonRed", "cannonRed", 0, 1 * TILE_SIZE);
+    towerPickerUI.addButton("CannonIce", "cannonIce", 0, 2 * TILE_SIZE);
   }
 
   private void updateUI() {
@@ -46,7 +46,7 @@ public class Game {
           player.pickTower(new TowerCannonBlue(TowerType.CannonRed, grid.getTile(0, 0),
               waveManager.getCurrentWave().getEnemyList()));
         } else if (towerPickerUI.isButtonClicked("CannonIce")) {
-          player.pickTower(new TowerIce(TowerType.CannonIce, grid.getTile(0, 0),
+          player.pickTower(new TowerCannonIce(TowerType.CannonIce, grid.getTile(0, 0),
               waveManager.getCurrentWave().getEnemyList()));
         }
       }
