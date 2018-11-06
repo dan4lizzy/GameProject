@@ -1,5 +1,7 @@
 package data;
 
+import static helpers.Artist.TILES_HIGH;
+import static helpers.Artist.TILES_WIDE;
 import static helpers.Artist.TILE_SIZE;
 
 public class TileGrid {
@@ -8,8 +10,8 @@ public class TileGrid {
   private int tilesWide, tilesHigh;
 
   public TileGrid() {
-    this.tilesWide = 20;
-    this.tilesHigh = 15;
+    this.tilesWide = TILES_WIDE;
+    this.tilesHigh = TILES_HIGH;
     map = new Tile[tilesWide][tilesHigh];
     for (int i = 0; i < map.length; i++) {
       for (int j = 0; j < map[i].length; j++) {

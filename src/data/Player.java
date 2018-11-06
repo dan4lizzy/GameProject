@@ -30,8 +30,8 @@ public class Player {
     this.rightMouseButtonDown = false;
     this.holdingTower = false;
     this.tempTower = null;
-    this.Cash = 0;
-    this.Lives = 0;
+    Cash = 0;
+    Lives = 0;
   }
 
   // Initialize Cash and Lives values for Player

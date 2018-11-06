@@ -1,10 +1,15 @@
 package data;
 
+import static helpers.Artist.DrawQuadTex;
+import static helpers.Artist.GRID_WIDTH;
+import static helpers.Artist.HEIGHT;
+import static helpers.Artist.MENU_WIDTH;
 import static helpers.Artist.QuickLoad;
 import static helpers.Artist.TILE_SIZE;
+import static helpers.Artist.WIDTH;
 import org.lwjgl.input.Mouse;
-import UI.UI;
 import UI.Button;
+import UI.UI;
 import data.enemies.Enemy;
 import data.towers.TowerCannonBlue;
 import data.towers.TowerCannonIce;
@@ -32,10 +37,13 @@ public class Game {
     // towerPickerUI.addButton("CannonBlue", "cannonBlue", 0, 0);
     // towerPickerUI.addButton("CannonRed", "cannonRed", 0, 1 * TILE_SIZE);
     // towerPickerUI.addButton("CannonIce", "cannonIce", 0, 2 * TILE_SIZE);
-    towerPickerUI.createMenu("TowerPicker", 0, 0);
-    towerPickerUI.getMenu("TowerPicker").addButton(new Button("CannonBlue", QuickLoad("cannonBlue"),0,0));
-    towerPickerUI.getMenu("TowerPicker").addButton(new Button("CannonRed", QuickLoad("cannonRed"),0,0));
-    towerPickerUI.getMenu("TowerPicker").addButton(new Button("CannonIce", QuickLoad("cannonIce"),0,0));
+    towerPickerUI.createMenu("TowerPicker", GRID_WIDTH + TILE_SIZE / 2, TILE_SIZE, 2, 0);
+    towerPickerUI.getMenu("TowerPicker")
+        .addButton(new Button("CannonBlue", QuickLoad("cannonBlue"), 0, 0));
+    towerPickerUI.getMenu("TowerPicker")
+        .addButton(new Button("CannonRed", QuickLoad("cannonRed"), 0, 0));
+    towerPickerUI.getMenu("TowerPicker")
+        .addButton(new Button("CannonIce", QuickLoad("cannonIce"), 0, 0));
   }
 
   private void updateUI() {
@@ -59,6 +67,7 @@ public class Game {
   }
 
   public void update() {
+    DrawQuadTex(QuickLoad("menu_background"), WIDTH - MENU_WIDTH, 0, MENU_WIDTH, HEIGHT);
     grid.draw();
     waveManager.update();
     player.update();

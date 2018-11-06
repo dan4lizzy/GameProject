@@ -40,8 +40,8 @@ public class UI {
     return null;
   }
 
-  public void createMenu(String name, int x, int y) {
-    menuList.add(new Menu(name, x, y));
+  public void createMenu(String name, int x, int y, int optionsWidth, int optionsHeight) {
+    menuList.add(new Menu(name, x, y, optionsWidth, optionsHeight));
   }
 
   public Menu getMenu(String name) {
@@ -65,18 +65,25 @@ public class UI {
 
     private String name;
     private ArrayList<Button> menuButtons;
-    private int x, y, buttonAmount;
+    private int x, y, buttonAmount, optionsWidth, optionsHeight;
 
-    public Menu(String name, int x, int y) {
+    public Menu(String name, int x, int y, int optionsWidth, int optionsHeight) {
       this.name = name;
       this.x = x;
       this.y = y;
       this.buttonAmount = 0;
+      this.optionsWidth = optionsWidth;
+      this.optionsHeight = optionsHeight;
       this.menuButtons = new ArrayList<Button>();
     }
 
     public void addButton(Button b) {
-      b.setX(x + buttonAmount * TILE_SIZE);
+      if (optionsWidth != 0) {
+        b.setY(y + (buttonAmount / optionsWidth) * TILE_SIZE);
+        b.setX(x + (buttonAmount % optionsWidth) * TILE_SIZE);
+      } else
+        b.setX(x + buttonAmount * TILE_SIZE);
+      buttonAmount++;
       menuButtons.add(b);
     }
 

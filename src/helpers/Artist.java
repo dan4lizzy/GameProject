@@ -30,7 +30,11 @@ import org.newdawn.slick.util.ResourceLoader;
 public class Artist {
 
   public static final int TILE_SIZE = 64;
-  public static final int WIDTH = 1280, HEIGHT = 960;
+  public static final int MENU_WIDTH = 3 * TILE_SIZE;
+  public static final int TILES_WIDE = 20, TILES_HIGH = 15;
+  public static final int GRID_WIDTH = (TILE_SIZE * TILES_WIDE);
+  public static final int WIDTH = GRID_WIDTH + MENU_WIDTH;
+  public static final int HEIGHT = TILE_SIZE * TILES_HIGH;
 
   public static void BeginSession() {
     Display.setTitle("CCG Game");
