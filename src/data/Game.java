@@ -23,8 +23,8 @@ public class Game {
   private UI gameUI;
   private Menu towerPickerMenu;
 
-  public Game(int[][] map) {
-    grid = new TileGrid(map);
+  public Game(TileGrid grid) {
+    this.grid = grid;
     waveManager = new WaveManager(
         new Enemy(QuickLoad("UFO64"), grid.getTile(10, 8), grid, TILE_SIZE, TILE_SIZE, 70, 100), 2,
         2);
@@ -35,7 +35,8 @@ public class Game {
 
   private void setupUI() {
     gameUI = new UI();
-    gameUI.createMenu("TowerPicker", GRID_WIDTH, 0, MENU_WIDTH, HEIGHT, 2, 0);
+    int offset = (int) (TILE_SIZE * 1.5);
+    gameUI.createMenu("TowerPicker", GRID_WIDTH, offset, MENU_WIDTH, HEIGHT - offset, 2, 0);
     towerPickerMenu = gameUI.getMenu("TowerPicker");
     towerPickerMenu.quickAdd("CannonBlue", "cannonBlue");
     towerPickerMenu.quickAdd("CannonRed", "cannonRed");

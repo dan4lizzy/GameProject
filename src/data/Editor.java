@@ -7,8 +7,8 @@ import static helpers.Artist.MENU_WIDTH;
 import static helpers.Artist.QuickLoad;
 import static helpers.Artist.TILE_SIZE;
 import static helpers.Artist.WIDTH;
-import static helpers.Leveler.loadMap;
-import static helpers.Leveler.saveMap;
+import static helpers.Leveler.LoadMap;
+import static helpers.Leveler.SaveMap;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import UI.UI;
@@ -22,7 +22,7 @@ public class Editor {
   private Menu tilePickerMenu;
 
   public Editor() {
-    this.grid = loadMap("mapTest.map");
+    this.grid = LoadMap("default.map");
     this.index = 0;
     this.types = new TileType[3];
     this.types[0] = TileType.Grass;
@@ -33,16 +33,15 @@ public class Editor {
 
   private void setupUI() {
     editorUI = new UI();
-    editorUI.createMenu("TilePicker", GRID_WIDTH, 0, MENU_WIDTH, HEIGHT, 2, 0);
+    int offset = (int) (TILE_SIZE * 1.5);
+    editorUI.createMenu("TilePicker", GRID_WIDTH, offset, MENU_WIDTH, HEIGHT - offset, 2, 0);
     tilePickerMenu = editorUI.getMenu("TilePicker");
     tilePickerMenu.quickAdd("Grass", "grass64");
     tilePickerMenu.quickAdd("Dirt", "dirt64");
     tilePickerMenu.quickAdd("Water", "water64");
   }
 
-  // Lesson 66 at 14:50
   public void update() {
-    DrawQuadTex(QuickLoad("tile_menu_background"), WIDTH - MENU_WIDTH, 0, MENU_WIDTH, HEIGHT);
     draw();
 
     if (Mouse.next()) {
@@ -67,13 +66,17 @@ public class Editor {
       if (Keyboard.getEventKey() == Keyboard.KEY_C && Keyboard.getEventKeyState()) {
         grid = new TileGrid();
       }
+      if (Keyboard.getEventKey() == Keyboard.KEY_L && Keyboard.getEventKeyState()) {
+        grid = LoadMap("default.map");
+      }
       if (Keyboard.getEventKey() == Keyboard.KEY_S && Keyboard.getEventKeyState()) {
-        saveMap("mapTest.map", grid);
+        SaveMap("default.map", grid);
       }
     }
   }
 
   private void draw() {
+    DrawQuadTex(QuickLoad("tile_menu_background"), WIDTH - MENU_WIDTH, 0, MENU_WIDTH, HEIGHT);
     grid.draw();
     editorUI.draw();
   }
