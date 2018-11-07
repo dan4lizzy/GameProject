@@ -83,6 +83,15 @@ public class UI {
     }
 
     public void addButton(Button b) {
+      setButton(b);
+    }
+
+    public void quickAdd(String name, String buttonTextureName) {
+      Button b = new Button(name, QuickLoad(buttonTextureName), 0, 0);
+      setButton(b);
+    }
+
+    private void setButton(Button b) {
       if (optionsWidth != 0) {
         b.setY(y + (buttonAmount / optionsWidth) * TILE_SIZE);
         b.setX(padding + x + (buttonAmount % optionsWidth) * (padding + TILE_SIZE));
