@@ -25,9 +25,11 @@ public class Game {
 
   public Game(TileGrid grid) {
     this.grid = grid;
-    waveManager = new WaveManager(
-        new Enemy(QuickLoad("UFO64"), grid.getTile(10, 8), grid, TILE_SIZE, TILE_SIZE, 70, 100), 2,
-        2);
+    // Enemy enemy = new Enemy(QuickLoad("UFO64"), grid.getTile(10, 8), grid, TILE_SIZE, TILE_SIZE,
+    // 70, 100);
+    Enemy enemy = new Enemy(QuickLoad("enemyFloating_1"), grid.getTile(10, 8), grid, TILE_SIZE,
+        TILE_SIZE, 70, 100);
+    waveManager = new WaveManager(enemy, 2, 2);
     player = new Player(grid, waveManager);
     player.setup();
     setupUI();
