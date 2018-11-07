@@ -44,6 +44,7 @@ public class StateManager {
         break;
     }
 
+    // TODO Add FPS output to screen
     long currentTime = System.currentTimeMillis() + 1000;
     if (currentTime > nextSecond) {
       nextSecond += 1000;

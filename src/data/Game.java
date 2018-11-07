@@ -47,6 +47,10 @@ public class Game {
 
   private void updateUI() {
     gameUI.draw();
+    gameUI.drawString(GRID_WIDTH + TILE_SIZE / 4, HEIGHT - TILE_SIZE, "Lives: " + Player.Lives);
+    gameUI.drawString(GRID_WIDTH + TILE_SIZE / 4, HEIGHT - TILE_SIZE / 2, "Cash: " + Player.Cash);
+    gameUI.drawString(GRID_WIDTH + MENU_WIDTH - TILE_SIZE * 3 / 4, HEIGHT - TILE_SIZE / 4, 12,
+        "FPS: " + helpers.StateManager.framesInLastSecond);
 
     if (Mouse.next()) {
       boolean mouseClicked = Mouse.isButtonDown(0);
