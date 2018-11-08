@@ -17,7 +17,8 @@ public class MainMenu {
   private boolean leftMouseButtonDown;
 
   public MainMenu() {
-    background = QuickLoad("mainmenu");
+    // background = QuickLoad("mainmenu");
+    background = QuickLoad("mainmenu-streched");
     menuUI = new UI();
     // buttons are 256 x 64
     int buttonCenter = 256 / 2;

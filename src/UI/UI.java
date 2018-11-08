@@ -13,22 +13,24 @@ public class UI {
 
   private ArrayList<Button> buttonList;
   private ArrayList<Menu> menuList;
-  private TrueTypeFont font;
-  private Font awtFont;
+  private TrueTypeFont font, fontSmall;
+  private Font awtFont, awtFontSmall;
 
   public UI() {
     buttonList = new ArrayList<Button>();
     menuList = new ArrayList<Menu>();
     awtFont = new Font("Times New Roman", Font.BOLD, 24);
     font = new TrueTypeFont(awtFont, false);
+    awtFontSmall = new Font("Times New Roman", Font.BOLD, 12);
+    fontSmall = new TrueTypeFont(awtFontSmall, false);
   }
 
   public void drawString(int x, int y, String text) {
     font.drawString(x, y, text);
   }
 
-  public void drawString(int x, int y, int size, String text) {
-    new TrueTypeFont(new Font("Times New Roman", Font.BOLD, size), false).drawString(x, y, text);
+  public void drawSmallString(int x, int y, String text) {
+    fontSmall.drawString(x, y, text);
   }
 
   public void addButton(String name, String textureName, int x, int y) {

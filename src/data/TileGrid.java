@@ -10,14 +10,11 @@ public class TileGrid {
   private int tilesWide, tilesHigh;
 
   public TileGrid() {
-    this.tilesWide = TILES_WIDE;
-    this.tilesHigh = TILES_HIGH;
-    map = new Tile[tilesWide][tilesHigh];
-    for (int i = 0; i < map.length; i++) {
-      for (int j = 0; j < map[i].length; j++) {
-        map[i][j] = new Tile(i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE, TILE_SIZE, TileType.Grass);
-      }
-    }
+    setSingleTileGrip(TileType.Grass);
+  }
+
+  public TileGrid(TileType type) {
+    setSingleTileGrip(type);
   }
 
   public TileGrid(int[][] newMap) {
@@ -42,6 +39,17 @@ public class TileGrid {
             set = TileType.Grass;
         }
         map[i][j] = new Tile(i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE, TILE_SIZE, set);
+      }
+    }
+  }
+
+  private void setSingleTileGrip(TileType type) {
+    this.tilesWide = TILES_WIDE;
+    this.tilesHigh = TILES_HIGH;
+    map = new Tile[tilesWide][tilesHigh];
+    for (int i = 0; i < map.length; i++) {
+      for (int j = 0; j < map[i].length; j++) {
+        map[i][j] = new Tile(i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE, TILE_SIZE, type);
       }
     }
   }

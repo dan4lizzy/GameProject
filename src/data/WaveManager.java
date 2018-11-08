@@ -36,4 +36,8 @@ public class WaveManager {
   public Wave getCurrentWave() {
     return currentWave;
   }
+
+  public int getWaveNumber() {
+    return waveNumber;
+  }
 }

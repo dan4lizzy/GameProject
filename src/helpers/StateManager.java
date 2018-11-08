@@ -44,7 +44,6 @@ public class StateManager {
         break;
     }
 
-    // TODO Add FPS output to screen
     long currentTime = System.currentTimeMillis() + 1000;
     if (currentTime > nextSecond) {
       nextSecond += 1000;
@@ -52,10 +51,26 @@ public class StateManager {
       framesInCurrentSecond = 0;
     }
     framesInCurrentSecond++;
-    System.out.println(framesInLastSecond + " fps");
   }
 
   public static void setState(GameState newState) {
-    gameState = newState;
+    if (gameState != newState) {
+      switch (gameState) {
+        case MAINMENU:
+          mainMenu = null;
+          break;
+        case GAME:
+          game = null;
+          break;
+        case EDITOR:
+          editor = null;
+          break;
+      }
+      gameState = newState;
+    }
+  }
+
+  public static void returnToMenu() {
+    setState(GameState.MAINMENU);
   }
 }

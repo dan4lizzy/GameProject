@@ -11,8 +11,10 @@ import static helpers.Leveler.LoadMap;
 import static helpers.Leveler.SaveMap;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.newdawn.slick.opengl.Texture;
 import UI.UI;
 import UI.UI.Menu;
+import helpers.StateManager;
 
 public class Editor {
   private TileGrid grid;
@@ -20,6 +22,7 @@ public class Editor {
   private TileType[] types;
   private UI editorUI;
   private Menu tilePickerMenu;
+  private Texture menuBackground;
 
   public Editor() {
     this.grid = LoadMap("default.map");
@@ -28,6 +31,7 @@ public class Editor {
     this.types[0] = TileType.Grass;
     this.types[1] = TileType.Dirt;
     this.types[2] = TileType.Water;
+    this.menuBackground = QuickLoad("tile_menu_background");
     setupUI();
   }
 
@@ -60,23 +64,24 @@ public class Editor {
 
     // Handle keyboard inputs
     while (Keyboard.next()) {
-      if (Keyboard.getEventKey() == Keyboard.KEY_RIGHT && Keyboard.getEventKeyState()) {
-        moveIndex();
-      }
-      if (Keyboard.getEventKey() == Keyboard.KEY_C && Keyboard.getEventKeyState()) {
-        grid = new TileGrid();
-      }
-      if (Keyboard.getEventKey() == Keyboard.KEY_L && Keyboard.getEventKeyState()) {
+      if (Keyboard.getEventKey() == Keyboard.KEY_D && Keyboard.getEventKeyState()) {
+        grid = new TileGrid(TileType.Dirt);
+      } else if (Keyboard.getEventKey() == Keyboard.KEY_G && Keyboard.getEventKeyState()) {
+        grid = new TileGrid(TileType.Grass);
+      } else if (Keyboard.getEventKey() == Keyboard.KEY_W && Keyboard.getEventKeyState()) {
+        grid = new TileGrid(TileType.Water);
+      } else if (Keyboard.getEventKey() == Keyboard.KEY_L && Keyboard.getEventKeyState()) {
         grid = LoadMap("default.map");
-      }
-      if (Keyboard.getEventKey() == Keyboard.KEY_S && Keyboard.getEventKeyState()) {
+      } else if (Keyboard.getEventKey() == Keyboard.KEY_S && Keyboard.getEventKeyState()) {
         SaveMap("default.map", grid);
+      } else if (Keyboard.getEventKey() == Keyboard.KEY_Q && Keyboard.getEventKeyState()) {
+        StateManager.returnToMenu();
       }
     }
   }
 
   private void draw() {
-    DrawQuadTex(QuickLoad("tile_menu_background"), WIDTH - MENU_WIDTH, 0, MENU_WIDTH, HEIGHT);
+    DrawQuadTex(menuBackground, WIDTH - MENU_WIDTH, 0, MENU_WIDTH, HEIGHT);
     grid.draw();
     editorUI.draw();
   }
