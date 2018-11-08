@@ -15,5 +15,6 @@ public class TowerCannonIce extends Tower {
   public void shoot(Enemy target) {
     projectiles.add(new ProjectileIceball(super.type.projectileType, super.getTarget(),
         super.getCoord(), super.getSize()));
+    super.target.reduceHiddenHealth(super.type.projectileType.damage);
   }
 }

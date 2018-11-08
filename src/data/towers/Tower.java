@@ -15,7 +15,7 @@ public abstract class Tower implements Entity {
 
   private float x, y, timeSinceLastShot, firingSpeed, azimuth, maxRotationSpeed;
   private int width, height, range, cost;
-  private Enemy target;
+  protected Enemy target;
   protected Texture[] textures;
   private CopyOnWriteArrayList<Enemy> enemies;
   private boolean targeted, initialAcquire;
@@ -51,7 +51,7 @@ public abstract class Tower implements Entity {
     float closestDistance = 10000;
     // Go through each Enemy in 'enemies' and return nearest one
     for (Enemy e : enemies) {
-      if (e.isAlive() && isInRange(e) && findDistance(e) < closestDistance) {
+      if (e.getHiddenHealth() > 0 && isInRange(e) && findDistance(e) < closestDistance) {
         closestDistance = findDistance(e);
         closest = e;
         initialAcquire = true;
@@ -134,7 +134,7 @@ public abstract class Tower implements Entity {
   public void update() {
     timeSinceLastShot += Delta();
 
-    if (!targeted) {
+    if (!targeted || target.getHiddenHealth() < 0) {
       target = acquireTarget();
     } else {
       azimuth = calculateAngle();

@@ -13,7 +13,7 @@ import data.TileGrid;
 
 public class Enemy implements Entity {
   private int width, height, currentCheckpoint;
-  private float x, y, speed, startHealth, health;
+  private float x, y, speed, startHealth, health, hiddenHealth;
   private Texture texture;
   // healthBackground, healthForeground, healthBorder;
   private Tile startTile;
@@ -48,6 +48,7 @@ public class Enemy implements Entity {
     this.speed = speed;
     this.startHealth = health;
     this.health = health;
+    this.hiddenHealth = health;
     this.healthBar = new HealthBar(x, y, width, height, startHealth, health);
 
     this.checkpoints = new ArrayList<Checkpoint>();
@@ -190,6 +191,14 @@ public class Enemy implements Entity {
     if (health != startHealth) {
       healthBar.update();
     }
+  }
+
+  public void reduceHiddenHealth(float amount) {
+    hiddenHealth -= amount;
+  }
+
+  public float getHiddenHealth() {
+    return hiddenHealth;
   }
 
   @Override
