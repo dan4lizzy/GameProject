@@ -1,6 +1,7 @@
 package data;
 
 import static helpers.Clock.Delta;
+import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 import data.enemies.Enemy;
 
@@ -48,7 +49,7 @@ public class Wave {
   }
 
   private void spawn() {
-    int enemyIndex = (int) Math.floor(Math.random() * enemyTypeCount);
+    int enemyIndex = new Random().nextInt(enemyTypeCount);
     enemyList.add(new Enemy(enemyTypes[enemyIndex]));
     enemiesSpawned++;
   }

@@ -13,6 +13,7 @@ import UI.UI;
 import UI.UI.Menu;
 import data.enemies.Enemy;
 import data.enemies.EnemyAlien;
+import data.enemies.EnemyPlane;
 import data.enemies.EnemyUFO;
 import data.towers.TowerCannonBlue;
 import data.towers.TowerCannonIce;
@@ -33,11 +34,8 @@ public class Game {
     this.menuBackground = QuickLoad("tower_menu_background");
     // TODO figure out where to start enemy on grid rather than having starting square hard coded
     // TODO maybe require that a tile is defined as start in the editor?
-    // Enemy enemy = new Enemy(QuickLoad("UFO64"), grid.getTile(10, 8), grid, TILE_SIZE, TILE_SIZE,
-    // 70, 100);
-    // Enemy enemy = new Enemy(QuickLoad("enemyFloating_1"), grid.getTile(3, 0), grid, TILE_SIZE,
-    // TILE_SIZE, 70, 100);
-    enemyTypes = new Enemy[] {new EnemyAlien(3, 0, grid), new EnemyUFO(3, 0, grid)};
+    enemyTypes = new Enemy[] {new EnemyAlien(3, 0, grid), new EnemyUFO(3, 0, grid),
+        new EnemyPlane(3, 0, grid)};
     waveManager = new WaveManager(enemyTypes, 2, 5);
     // waveManager = new WaveManager(new EnemyUFO(3, 0, grid), 2, 2);
     player = new Player(grid, waveManager);
