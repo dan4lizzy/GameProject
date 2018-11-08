@@ -12,6 +12,8 @@ import org.newdawn.slick.opengl.Texture;
 import UI.UI;
 import UI.UI.Menu;
 import data.enemies.Enemy;
+import data.enemies.EnemyAlien;
+import data.enemies.EnemyUFO;
 import data.towers.TowerCannonBlue;
 import data.towers.TowerCannonIce;
 import data.towers.TowerType;
@@ -24,6 +26,7 @@ public class Game {
   private UI gameUI;
   private Menu towerPickerMenu;
   private Texture menuBackground;
+  private Enemy[] enemyTypes;
 
   public Game(TileGrid grid) {
     this.grid = grid;
@@ -32,9 +35,11 @@ public class Game {
     // TODO maybe require that a tile is defined as start in the editor?
     // Enemy enemy = new Enemy(QuickLoad("UFO64"), grid.getTile(10, 8), grid, TILE_SIZE, TILE_SIZE,
     // 70, 100);
-    Enemy enemy = new Enemy(QuickLoad("enemyFloating_1"), grid.getTile(3, 0), grid, TILE_SIZE,
-        TILE_SIZE, 70, 100);
-    waveManager = new WaveManager(enemy, 2, 2);
+    // Enemy enemy = new Enemy(QuickLoad("enemyFloating_1"), grid.getTile(3, 0), grid, TILE_SIZE,
+    // TILE_SIZE, 70, 100);
+    enemyTypes = new Enemy[] {new EnemyAlien(3, 0, grid), new EnemyUFO(3, 0, grid)};
+    waveManager = new WaveManager(enemyTypes, 2, 5);
+    // waveManager = new WaveManager(new EnemyUFO(3, 0, grid), 2, 2);
     player = new Player(grid, waveManager);
     player.setup();
     setupUI();

@@ -1,6 +1,8 @@
 package data.enemies;
 
 import static helpers.Artist.DrawQuadTex;
+import static helpers.Artist.QuickLoad;
+import static helpers.Artist.TILE_SIZE;
 import static helpers.Clock.Delta;
 import java.util.ArrayList;
 import org.newdawn.slick.opengl.Texture;
@@ -23,6 +25,12 @@ public class Enemy implements Entity {
 
   private ArrayList<Checkpoint> checkpoints;
   private int[] directions;
+
+  // New default constructor
+  public Enemy(int tileX, int tileY, TileGrid grid) {
+    constructorHelper(QuickLoad("enemyFloating_1"), grid.getTile(tileX, tileY), grid, TILE_SIZE,
+        TILE_SIZE, 50, 50);
+  }
 
   public Enemy(Texture texture, Tile startTile, TileGrid grid, int width, int height, float speed,
       float health) {
